@@ -1,0 +1,10 @@
+name: 'Setup SDE'
+description: 'Provides Intel SDE executable'
+inputs:
+  os:
+    description: 'OS'
+    required: true
+    default: 'Windows'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
