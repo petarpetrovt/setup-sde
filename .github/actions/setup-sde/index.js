@@ -7,7 +7,7 @@ const acceptEUAFromUrl = "https://software.intel.com/protected-download/267266/1
 const sdeTarName = "sde-external-8.35.0-2019-03-11-win.tar.bz2";
 
 try {
-  const envName = core.getInput("env");
+  const envName = core.getInput("myInput");
   console.log(`EnvName: ${envName}`);
 
   const nightmare = Nightmare({
