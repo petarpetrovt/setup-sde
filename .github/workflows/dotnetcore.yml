@@ -12,6 +12,4 @@ jobs:
        uses: actions/checkout@v1
 
      - name: Test stuff
-       uses: ./.github/actions/setup-sde
-       with:
-          test: TEST_ENV
+       uses: ./.github/actions/setup-sde@v1

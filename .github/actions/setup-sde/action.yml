@@ -4,6 +4,7 @@ inputs:
   test:
     description: 'Environment variable name for SDE binaries path'
     required: true
+    defaultValue: 'TEST_ENV_VAR'
 runs:
   using: 'node12'
   main: 'index.js'
