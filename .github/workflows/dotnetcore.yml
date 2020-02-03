@@ -10,6 +10,5 @@ jobs:
     steps:
      - name: Checkout
        uses: actions/checkout@v1
-
      - name: Test stuff
-       uses: ./.github/actions/setup-sde@v1
+       uses: ./.github/actions/setup-sde
