@@ -32,12 +32,16 @@ try {
     }, sdeTarName)
     .waitDownloadsComplete()
     .end()
-    .then(() => {
-      core.exportVariable(envName, `sde-temp-file.tar.bz2`);
+    .then(async () => {
+      var extractedFolder = await tc.extractTar(`sde-temp-file.tar.bz2`, "sde-temp-files");
 
       console.log("done");
-      console.log(envName);
-      console.log(sdeTarName);
+      console.log(extractedFolder);
+
+      // const cachedPath = tc.cacheDir(extractedFolder, 'node', '12.7.0');
+      // core.addPath(cachedPath);
+
+      // core.exportVariable(envName, cachedPath);
     });
 } catch (error) {
   core.setFailed(error.message);
