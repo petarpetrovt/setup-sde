@@ -1,15 +1,9 @@
 name: 'Setup SDE'
 description: 'Downloads Intel's SDE binaries.'
 inputs:
-  version:
-    description: 'SDE version'
-    required: false
-  os:
-    description: 'OS'
-    required: true
   env:
     description: 'Environment variable name for SDE binaries path'
     required: true
 runs:
   using: 'node12'
-  main: 'index.ts'
+  main: 'index.js'
