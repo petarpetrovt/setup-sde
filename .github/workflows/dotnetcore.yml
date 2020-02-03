@@ -1,10 +1,5 @@
-name: Test 
-
+name: Main workflow
 on: [push]
-
-env:
-  SDE_VERSION_NAME: 'sde-external-8.35.0-2019-03-11-win'
-
 jobs:
   test:
     name: Test on ${{ matrix.os }}
