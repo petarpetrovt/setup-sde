@@ -1,0 +1,19 @@
+name: Test `sharp-sde` github action
+
+on: [push]
+
+env:
+  SDE_VERSION_NAME: 'sde-external-8.35.0-2019-03-11-win'
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest] # , ubuntu-latest, macOS-latest]
+    steps:
+     - uses: actions/checkout@v1 # Checkout local actions
+
+     - name: Test stuff
+       uses: ./.github/actions/setup-sde
