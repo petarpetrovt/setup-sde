@@ -1,8 +1,10 @@
 name: Main workflow
+
 on: [push]
+
 jobs:
-  test:
-    name: 'Platform:' ${{ matrix.os }}
+  build:
+    name: Platform ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
