@@ -9,7 +9,7 @@ jobs:
         os: [windows-latest] # , ubuntu-latest, macOS-latest]
     steps:
      - name: Checkout
-     - uses: actions/checkout@v1
+       uses: actions/checkout@v1
 
      - name: Test stuff
        uses: ./.github/actions/setup-sde
