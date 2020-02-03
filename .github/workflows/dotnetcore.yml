@@ -14,4 +14,4 @@ jobs:
      - name: Test stuff
        uses: ./.github/actions/setup-sde
        with:
-          env: TEST_ENV
+          test: TEST_ENV

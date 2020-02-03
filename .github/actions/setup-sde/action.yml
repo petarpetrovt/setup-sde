@@ -1,7 +1,7 @@
 name: 'Setup SDE'
 description: 'Downloads Intel's SDE binaries.'
 inputs:
-  env:
+  test:
     description: 'Environment variable name for SDE binaries path'
     required: true
 runs:
