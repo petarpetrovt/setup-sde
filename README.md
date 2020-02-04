@@ -1,16 +1,8 @@
-# setup-sde
+# setup-sde ![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg)
 
 ```
 Github action for downloading Intel's SDE binaries.
 ```
-
-## Build Status
-
-|             | Build Status |
-| ----------- | ------------ |
-| **Windows** | ![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg) |
-| **Linux**   | ![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg) |
-| **Mac**     | ![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg) |
 
 ## Authors
 
