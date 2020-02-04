@@ -1,11 +1,11 @@
-name: 'Setup SDE'
-description: 'Downloads Intel's SDE binaries.'
-author: 'Petar Petrov and contributors'
+name: Setup SDE
+description: Downloads Intel's SDE binaries.
+author: Petar Petrov and contributors
 inputs:
   environmentVariableName:
-    description: 'Environment variable name for SDE binaries path'
-    defaultValue: 'SDE_PATH'
+    description: Environment variable name for SDE binaries path
+    defaultValue: SDE_PATH
     required: true
 runs:
-  using: 'node12'
-  main: 'index.js'
+  using: node12
+  main: index.js
