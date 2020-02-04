@@ -1,4 +1,4 @@
-name: Test setup-sde
+name: Build
 
 on: [push]
 
@@ -8,8 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest] #, macOS-latest, windows-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
     steps:
      - uses: actions/checkout@v1
-     - name: Test Setup SDE
-       uses: ./.github/actions/setup-sde
+     - uses: ./.github/actions/setup-sde
