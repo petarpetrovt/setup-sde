@@ -1,6 +1,5 @@
 const core = require("@actions/core");
 const Nightmare = require("nightmare");
-const tc = require("@actions/tool-cache");
 const _7z = require('7zip-min');
 const fs = require('fs');
 const path = require('path');
@@ -74,7 +73,7 @@ async function getSDEPath(acceptEUAFromUrl, ) {
 
   const unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir, filesPath);
   const filesPaths = fs.readdirSync(unzipedDirectory);
-  
+
   if (filesPaths && filesPaths.length === 1) {
     const result = path.join(filesPath, filesPaths[0]);
 
