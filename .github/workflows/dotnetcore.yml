@@ -11,5 +11,4 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
     steps:
      - uses: actions/checkout@v2
-     - run: dir
-     - uses: ./.github/actions/setup-sde
+     - uses: setup-sde
