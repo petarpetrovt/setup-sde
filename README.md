@@ -2,6 +2,10 @@
 
 ![Main workflow](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg)
 
+```
+WARNING: This is a experimental project!
+```
+
 This action sets up a Intel's SDE binaries for use in actions by:
 
 * accepting Intel's [What If Pre-Release License Agreement](https://software.intel.com/protected-download/267266/144917)
