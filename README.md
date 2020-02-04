@@ -1,7 +1,22 @@
-# setup-sde ![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg)
+# setup-sde
+
+![Main workflow](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg)
+
+This action sets up a Intel's SDE binaries for use in actions by:
+
+* accepting Intel's [What If Pre-Release License Agreement](https://software.intel.com/protected-download/267266/144917)
+* downloading SDE binaries for current platform
+* TODO: caching a version of SDE by (version and|or os) and adding to PATH
+
+## Usage
+
+See [action.yml](https://github.com/petarpetrovt/setup-sde/.github/actions/setup-sde/action.yml)
 
 ```
-Github action for downloading Intel's SDE binaries.
+steps:
+- uses: petarpetrovt/setup-sde@v1
+  with:
+    environmentVariableName: 'SDE_PATH' # USE SDE_PATH variable
 ```
 
 ## Authors
