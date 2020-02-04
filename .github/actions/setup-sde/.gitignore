@@ -1,2 +1,2 @@
 @types/
-*.tar.bz2
+.output/
