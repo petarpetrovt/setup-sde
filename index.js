@@ -85,7 +85,7 @@ async function getSDEPath(acceptEUAFromUrl, ) {
 
 async function run() {
   try {
-    const environmentVariableName = core.getInput('environmentVariableName') || "TEST";
+    const environmentVariableName = core.getInput('environmentVariableName') || "SDE_PATH";
     core.debug(`EnvironmentVariableName: ${environmentVariableName}`);
 
     if (!environmentVariableName || environmentVariableName.length <= 0) {
