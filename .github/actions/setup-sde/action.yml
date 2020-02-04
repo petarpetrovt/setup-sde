@@ -2,9 +2,10 @@ name: 'Setup SDE'
 description: 'Downloads Intel's SDE binaries.'
 author: 'Petar Petrov and contributors'
 inputs:
-  myInput:
+  environmentVariableName:
     description: 'Environment variable name for SDE binaries path'
-    defaultValue: 'TEST_ENV_VAR'
+    defaultValue: 'SDE_PATH'
+    required: true
 runs:
   using: 'node12'
   main: 'index.js'

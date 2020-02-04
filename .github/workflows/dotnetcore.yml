@@ -8,9 +8,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest] # , ubuntu-latest, macOS-latest]
+        os: [windows-latest] # ubuntu-latest, macOS-latest]
     steps:
-     - name: Checkout
-       uses: actions/checkout@v1
-     - name: Test stuff
+     - uses: actions/checkout@v1
+     - name: Test Setup SDE
        uses: ./.github/actions/setup-sde

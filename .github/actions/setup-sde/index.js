@@ -6,60 +6,103 @@ const fs = require('fs');
 const path = require('path');
 require("nightmare-download-manager")(Nightmare);
 
-const acceptEUAFromUrl = "https://software.intel.com/protected-download/267266/144917";
-const sdeTarName = "sde-external-8.35.0-2019-03-11-win.tar.bz2";
-const outputDir = path.resolve(`.output`);
-const downloadPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
-const tarPath = path.join(outputDir, `sde-temp-file.tar`);
+function getOSHyperLinkSelector() {
+  switch (process.platform) {
+    case "win32": {
+      return `a[href$="win.tar.bz2"]`;
+    }
+    case "darwin": {
+      return `a[href$="mac.tar.bz2"]`;
+    }
+    case "linux": {
+      return `a[href$="lin.tar.bz2"]`;
+    }
+    default: {
+      throw new Error(`Platform '${process.platform}' is not supported in this context.`);
+    }
+  }
+}
 
-try {
-  const envName = core.getInput("myInput");
-  console.log(`EnvName: ${envName}`);
+function unzip(tarBzPath, tarPath, outputDir) {
+  const filesPath = path.join(outputDir, `sde-temp-files`);
 
-  const nightmare = Nightmare({
-    show: false
+  return new Promise((resolve, reject) => {
+    _7z.unpack(tarBzPath, outputDir, err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      _7z.unpack(tarPath, filesPath, err => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(filesPath);
+      });
+    });
   });
+}
+
+async function getSDEPath(acceptEUAFromUrl, ) {
+  const outputDir = path.resolve(`.output`);
+  const tarBzPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
+  const tarPath = path.join(outputDir, `sde-temp-file.tar`);
+  const filesPath = path.join(outputDir, `sde-temp-files`);
+  const nightmare = Nightmare();
 
   nightmare.on("download", function (state, downloadItem) {
     if (state == "started") {
-      nightmare.emit("download", downloadPath, downloadItem);
+      nightmare.emit("download", tarBzPath, downloadItem);
     }
   });
 
-  nightmare
+  await nightmare
     .downloadManager()
     .goto(acceptEUAFromUrl)
     .wait("#intel-licensed-dls-step-1")
     .check("#intel-licensed-dls-step-1 input[name='accept_license']")
     .click("#intel-licensed-dls-step-1 input[type='submit']")
     .wait("#intel-licensed-dls-step-2")
-    .evaluate((sdeTarName) => {
-      document.querySelector(`a[href*="${sdeTarName}"]`).click();
-    }, sdeTarName)
+    .evaluate((selector) => document.querySelector(selector).click(), getOSHyperLinkSelector())
     .waitDownloadsComplete()
     .end()
-    .then(async () => {
-      _7z.unpack(downloadPath, outputDir, err => {
-        dumpDirectory(outputDir);
-
-        _7z.unpack(tarPath, outputDir, err => {
-          dumpDirectory(outputDir);
-        });
-      });
-
-      console.log(`done`);
-      // core.exportVariable(envName, cachedPath);
+    .catch(error => {
+      throw new Error(`Failed to download SDE. Exception: ${error}`);
     });
-} catch (error) {
-  core.setFailed(error.message);
+
+  const unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir, filesPath);
+  const filesPaths = fs.readdirSync(unzipedDirectory);
+  
+  if (filesPaths && filesPaths.length === 1) {
+    const result = path.join(filesPath, filesPaths[0]);
+
+    return result;
+  }
+
+  throw new Error(`Failed to provide SDE path.`);
 }
 
-function dumpDirectory(path) {
-  fs.readdir(path, function (err, items) {
-    if (items) {
-      console.log(items);
-    } else {
-      console.log(`Empty.`);
+async function run() {
+  try {
+    const environmentVariableName = core.getInput('environmentVariableName') || "TEST";
+    core.debug(`EnvironmentVariableName: ${environmentVariableName}`);
+
+    if (!environmentVariableName || environmentVariableName.length <= 0) {
+      throw new Error(`Missing enviroment variable name.`);
     }
-  });
+
+    // TODO: argument
+    const acceptEUAFromUrl = "https://software.intel.com/protected-download/267266/144917";
+
+    const sdePath = await getSDEPath(acceptEUAFromUrl);
+    core.debug(`SDE Path: ${sdePath}`);
+
+    core.exportVariable(environmentVariableName, sdePath);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+
+run();
