@@ -11,6 +11,6 @@ jobs:
         os: [windows-latest] # , ubuntu-latest, macOS-latest]
     steps:
      - uses: actions/checkout@v2
-     - uses: petarpetrovt/setup-sde@master
+     - uses: petarpetrovt/setup-sde@feature/env
      - run: 'Get-ChildItem env:'
        shell: powershell
