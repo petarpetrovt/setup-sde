@@ -1,7 +1,7 @@
 {
   "private": true,
   "version": "0.0.1",
-  "name": "package",
+  "name": "installer",
   "main": "index.js",
   "dependencies": {
     "nightmare": "^3.0.2",

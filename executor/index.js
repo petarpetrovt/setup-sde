@@ -2,9 +2,9 @@ const core = require("@actions/core");
 const path = require('path');
 const exec = require('child_process').exec;
 
-function npmInstall(directory) {
+function npmInstall(packagePath) {
     return new Promise((resolve, reject) => {
-        exec(`npm install ${directory}`, (error, stdout, stderr) => {
+        exec(`npm install ${packagePath}`, (error, stdout, stderr) => {
             if (error) {
                 reject(error);
                 return;
@@ -15,9 +15,9 @@ function npmInstall(directory) {
     });
 }
 
-function getSDEPath(packagePath) {
+function getSDEPath(packageIndexPath) {
     return new Promise((resolve, reject) => {
-        exec(`node ${packagePath}`, (error, stdout, stderr) => {
+        exec(`node ${packageIndexPath}`, (error, stdout, stderr) => {
             if (error) {
                 reject(error);
                 return;
@@ -39,13 +39,14 @@ async function run() {
             throw new Error(`Missing enviroment variable name.`);
         }
 
-        const directory = path.resolve(`package`);
-        const packagePath = path.join(directory, `index.js`);
+        // TODO: pass directory
+        const directory = path.join(__dirname, `../../installer`);
+        const packageIndexPath = path.join(directory, `index.js`);
 
         // TODO: improve info logging
         await npmInstall(directory);
 
-        const sdePath = await getSDEPath(packagePath);
+        const sdePath = await getSDEPath(packageIndexPath);
 
         core.exportVariable(environmentVariableName, sdePath);
     }
