@@ -3,8 +3,15 @@
   "version": "0.0.1",
   "name": "executor",
   "main": "index.js",
+  "scripts": {
+    "prebuild": "npm install",
+    "build": "node node_modules\\@zeit\\ncc\\dist\\ncc\\cli.js build index.js -m"
+  },
   "dependencies": {
     "@actions/core": "^1.2.2",
     "@actions/tool-cache": "^1.1.2"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.21.0"
   }
 }

@@ -1,12 +1,15 @@
 const core = require("@actions/core");
-const path = require('path');
-const exec = require('child_process').exec;
+const path = require("path");
+const exec = require("child_process").exec;
 
 function npmInstall(packagePath) {
     return new Promise((resolve, reject) => {
-        exec(`npm install`, {
+        exec("npm install", {
             cwd: packagePath
         }, (error, stdout, stderr) => {
+            core.debug(stdout);
+            core.debug(stderr);
+
             if (error) {
                 reject(error);
                 return;
@@ -17,11 +20,14 @@ function npmInstall(packagePath) {
     });
 }
 
-function getSDEPath(packagePath, packageIndexFileName) {
+function installSDE(packagePath, packageIndexFileName) {
     return new Promise((resolve, reject) => {
         exec(`node ${packageIndexFileName}`, {
             cwd: packagePath
         }, (error, stdout, stderr) => {
+            core.debug(stdout);
+            core.debug(stderr);
+
             if (error) {
                 reject(error);
                 return;
@@ -34,34 +40,25 @@ function getSDEPath(packagePath, packageIndexFileName) {
 
 async function run() {
     try {
-        console.log(`cwd: ${process.cwd()}`);
-
-        const environmentVariableName = core.getInput('environmentVariableName') || "SDE_PATH";
+        const environmentVariableName = core.getInput("environmentVariableName") || "SDE_PATH";
         core.debug(`environmentVariableName: ${environmentVariableName}`);
 
         if (!environmentVariableName || environmentVariableName.length <= 0) {
-            throw new Error(`Missing enviroment variable name.`);
+            throw new Error("Missing enviroment variable name.");
         }
 
-        // TODO: pass directory
-        const packagePath = path.join(__dirname, `../../installer`);
-        const packageIndexFileName = `index.js`;
+        const packagePath = path.join(__dirname, "../../installer");
+        const packageIndexFileName = "index.js";
 
-        // TODO: improve info logging
         await npmInstall(packagePath);
 
-        const sdePath = await getSDEPath(packagePath, packageIndexFileName);
+        const sdePath = await installSDE(packagePath, packageIndexFileName);
 
         core.exportVariable(environmentVariableName, sdePath);
     }
-    catch (error) {
-        console.error(error);
-
-        try {
-            //core.setFailed(error);
-        } catch (er) {
-            console.error(er);
-        }
+    catch (e) {
+        core.error(e);
+        core.setFailed("An error has occured while setuping SDE binaries.");
     }
 }
 
