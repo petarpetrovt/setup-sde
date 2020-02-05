@@ -28,6 +28,7 @@ function getSDEPath() {
 
 async function run() {
     try {
+        // TODO: improve info logging
         await npmInstall();
 
         const core = require("@actions/core");
