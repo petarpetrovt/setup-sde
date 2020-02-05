@@ -1,31 +1,48 @@
-const execSync = require('child_process').execSync;
+const exec = require('child_process').exec;
 
-console.log(`Dumping env...`);
-Object
-    .keys(process.env)
-    .forEach((key) => console.log(`EV - ${key}:${process.env[key]}`));
-console.log(`Done.`);
-console.log();
+function npmInstall() {
+    return new Promise((resolve, reject) => {
+        exec('npm install', (error, stdout, stderr) => {
+            if (error) {
+                reject(error);
+                return;
+            }
 
-console.log(`Starting NPM install...`);
-execSync('npm install', {
-    stdio: 'inherit',
-    stderr: 'inherit'
-});
-console.log(`Done.`);
-console.log();
+            resolve();
+        });
+    });
+}
 
-console.log(`Starting NODE index.js...`);
-execSync('node index.js', {
-    stdio: 'inherit',
-    stderr: 'inherit'
-});
-console.log(`Done.`);
-console.log();
+function getSDEPath() {
+    return new Promise((resolve, reject) => {
+        exec('node index.js', (error, stdout, stderr) => {
+            if (error) {
+                reject(error);
+                return;
+            }
 
-console.log(`Dumping env...`);
-Object
-    .keys(process.env)
-    .forEach((key) => console.log(`EV - ${key}:${process.env[key]}`));
-console.log(`Done.`);
-console.log();
+            resolve(stdout);
+        });
+    });
+}
+
+async function run() {
+    try {
+        await npmInstall();
+
+        const core = require("@actions/core");
+
+        try {
+            const sdePath = await getSDEPath();
+
+            core.exportVariable("SDE_PATH", sdePath);
+        } catch (error) {
+            core.setFailed(error);
+        }
+    }
+    catch (ex) {
+        console.error(ex);
+    }
+}
+
+run();

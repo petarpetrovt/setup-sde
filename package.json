@@ -2,7 +2,8 @@
   "name": "setup-sde",
   "version": "0.0.1",
   "description": "Represents a github action for downloading Intel's SDE binaries.",
-  "main": "index.js",
+  "author": "Petar Petrov and contributors",
+  "license": "ISC",
   "keywords": [
     "sde",
     "intel",
@@ -10,8 +11,7 @@
     "github",
     "action"
   ],
-  "author": "Petar Petrov and contributors",
-  "license": "ISC",
+  "main": "index.js",
   "dependencies": {
     "@actions/core": "^1.2.2",
     "@actions/tool-cache": "^1.1.2",

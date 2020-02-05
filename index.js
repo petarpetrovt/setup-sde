@@ -86,7 +86,7 @@ async function getSDEPath(acceptEUAFromUrl, ) {
 async function run() {
   try {
     const environmentVariableName = core.getInput('environmentVariableName') || "SDE_PATH";
-    core.debug(`EnvironmentVariableName: ${environmentVariableName}`);
+    //core.debug(`EnvironmentVariableName: ${environmentVariableName}`);
     //console.log(`EnvironmentVariableName: ${environmentVariableName}`);
 
     if (!environmentVariableName || environmentVariableName.length <= 0) {
@@ -97,12 +97,15 @@ async function run() {
     const acceptEUAFromUrl = "https://software.intel.com/protected-download/267266/144917";
 
     const sdePath = await getSDEPath(acceptEUAFromUrl);
-    core.debug(`SDE Path: ${sdePath}`);
+    // core.debug(`SDE Path: ${sdePath}`);
     //console.log(`SDE Path: ${sdePath}`);
 
-    core.exportVariable(environmentVariableName, sdePath);
+    // core.exportVariable(environmentVariableName, sdePath);
+    // console.log(`SDE_PATH=${sdePath}`);
+    console.log(sdePath);
   } catch (error) {
-    core.setFailed(error.message);
+    console.error(error.messsage);
+    // core.setFailed(error.message);
   }
 }
 
