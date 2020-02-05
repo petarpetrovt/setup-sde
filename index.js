@@ -87,6 +87,7 @@ async function run() {
   try {
     const environmentVariableName = core.getInput('environmentVariableName') || "SDE_PATH";
     core.debug(`EnvironmentVariableName: ${environmentVariableName}`);
+    //console.log(`EnvironmentVariableName: ${environmentVariableName}`);
 
     if (!environmentVariableName || environmentVariableName.length <= 0) {
       throw new Error(`Missing enviroment variable name.`);
@@ -97,6 +98,7 @@ async function run() {
 
     const sdePath = await getSDEPath(acceptEUAFromUrl);
     core.debug(`SDE Path: ${sdePath}`);
+    //console.log(`SDE Path: ${sdePath}`);
 
     core.exportVariable(environmentVariableName, sdePath);
   } catch (error) {
