@@ -1,19 +1,6 @@
 const exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
 
-function npmInstall() {
-    return new Promise((resolve, reject) => {
-        exec('npm install', (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-
-            resolve();
-        });
-    });
-}
-
 function getSDEPath() {
     return new Promise((resolve, reject) => {
         exec('node index.js', (error, stdout, stderr) => {

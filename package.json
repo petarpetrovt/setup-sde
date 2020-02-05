@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Represents a github action for downloading Intel's SDE binaries.",
   "author": "Petar Petrov and contributors",
+  "private": true,
   "license": "ISC",
   "keywords": [
     "sde",
