@@ -44,6 +44,8 @@ async function run() {
             const sdePath = await getSDEPath();
 
             core.exportVariable(environmentVariableName, sdePath);
+
+            console.log(`Retrieved SDE path: ${sdePath}`);
         } catch (error) {
             core.setFailed(error);
         }
