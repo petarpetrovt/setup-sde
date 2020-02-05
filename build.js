@@ -34,9 +34,16 @@ async function run() {
         const core = require("@actions/core");
 
         try {
+            const environmentVariableName = core.getInput('environmentVariableName') || "SDE_PATH";
+            core.debug(`environmentVariableName: ${environmentVariableName}`);
+
+            if (!environmentVariableName || environmentVariableName.length <= 0) {
+                throw new Error(`Missing enviroment variable name.`);
+            }
+
             const sdePath = await getSDEPath();
 
-            core.exportVariable("SDE_PATH", sdePath);
+            core.exportVariable(environmentVariableName, sdePath);
         } catch (error) {
             core.setFailed(error);
         }
