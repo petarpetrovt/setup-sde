@@ -10,7 +10,13 @@ jobs:
       matrix:
         os: [windows-latest] # , ubuntu-latest, macOS-latest]
     steps:
-     - uses: actions/checkout@v2
-     - uses: petarpetrovt/setup-sde@feature/env
-     - run: 'Get-ChildItem env:'
-       shell: powershell
+     - name: Checkout
+       uses: actions/checkout@v2
+
+     - name: Setup SDE
+       uses: petarpetrovt/setup-sde@feature/env
+       with:
+         environmentVariableName: TEST_SDE_PATH
+
+     - name: Assert TEST_SDE_PATH
+       run: echo $TEST_SDE_PATH
