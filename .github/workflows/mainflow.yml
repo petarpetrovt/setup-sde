@@ -1,14 +1,12 @@
 name: Build
-
 on: [push]
-
 jobs:
   build:
-    name: Platform ${{ matrix.os }}
+    name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest] # , ubuntu-latest, macOS-latest]
+        os: [windows-latest, ubuntu-latest, macOS-latest]
     steps:
      - name: Checkout
        uses: actions/checkout@v2
