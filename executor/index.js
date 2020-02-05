@@ -1,42 +1,6 @@
 const core = require("@actions/core");
+const exec = require('@actions/exec');
 const path = require("path");
-const exec = require("child_process").exec;
-
-function npmInstall(packagePath) {
-    return new Promise((resolve, reject) => {
-        exec("npm install", {
-            cwd: packagePath
-        }, (error, stdout, stderr) => {
-            core.debug(stdout);
-            core.debug(stderr);
-
-            if (error) {
-                reject(error);
-                return;
-            }
-
-            resolve();
-        });
-    });
-}
-
-function installSDE(packagePath, packageIndexFileName) {
-    return new Promise((resolve, reject) => {
-        exec(`node ${packageIndexFileName}`, {
-            cwd: packagePath
-        }, (error, stdout, stderr) => {
-            core.debug(stdout);
-            core.debug(stderr);
-
-            if (error) {
-                reject(error);
-                return;
-            }
-
-            resolve(stdout);
-        });
-    });
-}
 
 async function run() {
     try {
@@ -50,15 +14,27 @@ async function run() {
         const packagePath = path.join(__dirname, "../../installer");
         const packageIndexFileName = "index.js";
 
-        await npmInstall(packagePath);
+        await exec.exec("npm", [`install`], {
+            cwd: packagePath
+        });
 
-        const sdePath = await installSDE(packagePath, packageIndexFileName);
+        var sdePath = '';
 
-        core.exportVariable(environmentVariableName, sdePath);
+        await exec.exec(`node`, [packageIndexFileName], {
+            cwd: packagePath,
+            listeners: {
+                stdout: (data) => sdePath += data.toString(),
+            }
+        });
+
+        if (!sdePath || sdePath.length <= 0) {
+            throw new Error("Could not provide SDE binaries path.");
+        }
+
+        core.exportVariable(environmentVariableName, sdePath.trim());
     }
     catch (e) {
-        core.error(e);
-        core.setFailed("An error has occured while setuping SDE binaries.");
+        core.setFailed(`An error has occured while setuping SDE binaries: ${e.message}`);
     }
 }
 
