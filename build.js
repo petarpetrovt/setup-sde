@@ -1,4 +1,5 @@
 const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
 
 function npmInstall() {
     return new Promise((resolve, reject) => {
@@ -29,9 +30,14 @@ function getSDEPath() {
 async function run() {
     try {
         // TODO: improve info logging
-        await npmInstall();
+        execSync('npm install', {
+            stdout: 'inherit',
+            stdout: 'inherit'
+        });
 
         const core = require("@actions/core");
+
+        console.log(`Starting action..`);
 
         try {
             const environmentVariableName = core.getInput('environmentVariableName') || "SDE_PATH";
