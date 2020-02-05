@@ -1,24 +1,10 @@
 {
-  "name": "setup-sde",
-  "version": "0.0.1",
-  "description": "Represents a github action for downloading Intel's SDE binaries.",
-  "author": "Petar Petrov and contributors",
   "private": true,
-  "license": "ISC",
-  "keywords": [
-    "sde",
-    "intel",
-    "binaries",
-    "github",
-    "action"
-  ],
+  "name": "setup-sde",
   "main": "index.js",
   "dependencies": {
     "@actions/core": "^1.2.2",
     "@actions/tool-cache": "^1.1.2",
-    "nightmare": "^3.0.2",
-    "nightmare-download-manager": "^0.2.5",
-    "7zip-min": "^1.1.1",
-    "fs-extra": "^8.1.0"
+    "package": "file:package"
   }
 }
