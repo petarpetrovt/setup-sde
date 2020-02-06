@@ -16,8 +16,8 @@ jobs:
        if: matrix.os == 'ubuntu-latest'
 
      - uses: actions/setup-node@v1
-     - run: npm install '/installer/'
-     - run: node '/installer/index.js'
+     - run: npm install 'installer/'
+     - run: node 'installer/index.js'
      #- name: Setup SDE
      #  uses: petarpetrovt/setup-sde@feature/env
      #  with:
