@@ -14,20 +14,19 @@ jobs:
      - name: Update linux dep
        run: sudo apt-get update
        if: matrix.os == 'ubuntu-latest'
-     
-     - name: Install electron dependencies for linux
-       run: sudo apt-get install xvfb
-       if: matrix.os == 'ubuntu-latest'
 
      - uses: actions/setup-node@v1
      - run: npm install 'installer/'
-     - run: node 'installer/run.js'
-       env:
-           DEBUG: nightmare
+
+     - name: Run test headless
+       uses: GabrielBB/xvfb-action@v1.0
+       with:
+         run: node 'installer/index.js'
+
      #- name: Setup SDE
      #  uses: petarpetrovt/setup-sde@feature/env
      #  with:
-      #   environmentVariableName: TEST_SDE_PATH
+     #    environmentVariableName: TEST_SDE_PATH
 
      - name: Assert TEST_SDE_PATH
        run: echo $TEST_SDE_PATH
