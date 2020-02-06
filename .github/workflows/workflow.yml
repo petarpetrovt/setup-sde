@@ -21,7 +21,7 @@ jobs:
      - name: Run test headless
        uses: GabrielBB/xvfb-action@v1.0
        with:
-         run: node 'installer/index.js'
+         run: node installer/index.js
 
      #- name: Setup SDE
      #  uses: petarpetrovt/setup-sde@feature/env
