@@ -11,6 +11,7 @@ async function run() {
             throw new Error("Missing enviroment variable name.");
         }
 
+        // TODO: "../installer" when running node index.js not dist
         const packagePath = path.join(__dirname, "../../installer");
         const packageIndexFileName = "index.js";
 
