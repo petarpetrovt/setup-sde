@@ -15,10 +15,13 @@ jobs:
        run: sudo apt-get install -y libgtk2.0-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb
        if: matrix.os == 'ubuntu-latest'
 
-     - name: Setup SDE
-       uses: petarpetrovt/setup-sde@feature/env
-       with:
-         environmentVariableName: TEST_SDE_PATH
+     - uses: actions/setup-node@v1
+     - run: npm install '/installer/'
+     - run: node '/installer/index.js'
+     #- name: Setup SDE
+     #  uses: petarpetrovt/setup-sde@feature/env
+     #  with:
+      #   environmentVariableName: TEST_SDE_PATH
 
      - name: Assert TEST_SDE_PATH
        run: echo $TEST_SDE_PATH
