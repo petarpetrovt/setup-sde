@@ -12,6 +12,6 @@ jobs:
        uses: actions/checkout@v2
 
      - name: Test
-       uses: petarpetrovt/setup-sde@master
+       uses: petarpetrovt/setup-sde@v0.3-alpha
        with:
          environmentVariableName: TEST_SDE_PATH
