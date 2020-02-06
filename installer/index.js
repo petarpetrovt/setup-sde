@@ -48,19 +48,13 @@ async function getSDEPath(acceptEUAFromUrl, ) {
   const tarBzPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
   const tarPath = path.join(outputDir, `sde-temp-file.tar`);
   const filesPath = path.join(outputDir, `sde-temp-files`);
-  console.log(`step -2`);
-
   const nightmare = Nightmare();
-
-  console.log(`step -1`);
 
   nightmare.on("download", function (state, downloadItem) {
     if (state == "started") {
       nightmare.emit("download", tarBzPath, downloadItem);
     }
   });
-
-  console.log(`step 0`);
 
   await nightmare
     .downloadManager()
@@ -77,14 +71,8 @@ async function getSDEPath(acceptEUAFromUrl, ) {
       throw new Error(`Failed to download SDE. Exception: ${error}`);
     });
 
-  console.log(`step 10`);
   const unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir, filesPath);
-
-  console.log(`step 11: ${tarPath}`);
-
   const filesPaths = fs.readdirSync(unzipedDirectory);
-
-  console.log(`step 12: ${unzipedDirectory}`);
 
   if (filesPaths && filesPaths.length === 1) {
     const result = path.join(filesPath, filesPaths[0]);
@@ -108,4 +96,6 @@ async function run() {
   }
 }
 
-run();
+module.exports.run = run;
+
+// run();
