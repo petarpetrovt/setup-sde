@@ -67,7 +67,6 @@ async function getSDEPath(acceptEUAFromUrl, ) {
     .waitDownloadsComplete()
     .end()
     .catch(error => {
-      console.log(error);
       throw new Error(`Failed to download SDE. Exception: ${error}`);
     });
 
@@ -90,7 +89,7 @@ async function run() {
     const sdePath = await getSDEPath(acceptEUAFromUrl);
 
     // output
-    console.log(sdePath);
+    console.log(`SDE_PATH:${sdePath}`);
   } catch (error) {
     console.error(error);
   }

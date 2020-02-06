@@ -19,12 +19,19 @@ async function run() {
             cwd: packagePath
         });
 
-        var sdePath = '';
+        var sdePath = null;
 
         await exec.exec(`node`, [packageIndexFileName], {
             cwd: packagePath,
             listeners: {
-                stdout: (data) => sdePath += data.toString(),
+                stdout: (data) => {
+                    const prefix = `SDE_PATH:`;
+                    if (data && data.toString().startsWith(prefix)) {
+                        sdePath = data.toString().substring(prefix.length);
+                    } else {
+                        core.debug(sdePath);
+                    }
+                }
             }
         });
 
