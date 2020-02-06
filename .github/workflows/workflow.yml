@@ -6,17 +6,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest] # , windows-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
      - name: Checkout
        uses: actions/checkout@v2
 
-     - name: Update linux dep
-       run: sudo apt-get update
-       if: matrix.os == 'ubuntu-latest'
-
-     - uses: actions/setup-node@v1
-     - run: npm install 'installer/'
+     - name: Setup node
+       uses: actions/setup-node@v1
+       
+     - name: Install NPM
+       run: npm install 'installer/'
 
      - name: Run test headless
        uses: GabrielBB/xvfb-action@v1.0
