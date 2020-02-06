@@ -10,13 +10,13 @@ This action sets up a Intel's SDE binaries for use in actions by:
 
 ## Usage
 
-See [action.yml](https://github.com/petarpetrovt/setup-sde/.github/actions/setup-sde/action.yml)
+See [action.yml](https://github.com/petarpetrovt/setup-sde/action.yml)
 
 ```
 steps:
 - uses: petarpetrovt/setup-sde@v0.3-alpha
   with:
-    environmentVariableName: 'SDE_PATH' # USE SDE_PATH variable
+    environmentVariableName: 'SDE_PATH'
 ```
 
 ## Authors
