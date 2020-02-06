@@ -18,6 +18,9 @@ jobs:
      - uses: actions/setup-node@v1
      - run: npm install 'installer/'
      - run: node 'installer/index.js'
+       with:
+         env:
+           DEBUG: nightmare
      #- name: Setup SDE
      #  uses: petarpetrovt/setup-sde@feature/env
      #  with:

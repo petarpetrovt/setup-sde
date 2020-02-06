@@ -65,44 +65,26 @@ async function getSDEPath(acceptEUAFromUrl, ) {
   await nightmare
     .downloadManager()
     .goto(acceptEUAFromUrl)
-    .then(() => {
-      console.log('step 2.');
-    })
     .wait("#intel-licensed-dls-step-1")
-    .then(() => {
-      console.log('step 3.');
-    })
     .check("#intel-licensed-dls-step-1 input[name='accept_license']")
-    .then(() => {
-      console.log('step 4.');
-    })
     .click("#intel-licensed-dls-step-1 input[type='submit']")
-    .then(() => {
-      console.log('step 5.');
-    })
     .wait("#intel-licensed-dls-step-2")
-    .then(() => {
-      console.log('step 6.');
-    })
     .evaluate((selector) => document.querySelector(selector).click(), getOSHyperLinkSelector())
-    .then(() => {
-      console.log('step 7');
-    })
     .waitDownloadsComplete()
-    .then(() => {
-      console.log('step 8.');
-    })
     .end()
-    .then(() => {
-      console.log('step 9.');
-    })
     .catch(error => {
+      console.log(error);
       throw new Error(`Failed to download SDE. Exception: ${error}`);
     });
 
   console.log(`step 10`);
   const unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir, filesPath);
+
+  console.log(`step 11: ${tarPath}`);
+
   const filesPaths = fs.readdirSync(unzipedDirectory);
+
+  console.log(`step 12: ${unzipedDirectory}`);
 
   if (filesPaths && filesPaths.length === 1) {
     const result = path.join(filesPath, filesPaths[0]);
