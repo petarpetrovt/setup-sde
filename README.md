@@ -1,6 +1,6 @@
 # setup-sde
 
-![Main workflow](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg)
+![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master)
 
 This action sets up a Intel's SDE binaries for use in actions by:
 
