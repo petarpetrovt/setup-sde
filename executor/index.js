@@ -8,7 +8,8 @@ async function run() {
         core.debug(`environmentVariableName: ${environmentVariableName}`);
 
         if (!environmentVariableName || environmentVariableName.length <= 0) {
-            throw new Error("Missing enviroment variable name.");
+            core.setFailed("Missing enviroment variable name.");
+            return;
         }
 
         // TODO: "../installer" when running node index.js not dist
