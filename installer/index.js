@@ -64,9 +64,6 @@ async function getSDEPath(acceptEUAFromUrl, ) {
 
   await nightmare
     .downloadManager()
-    .then(() => {
-      console.log('step 1.');
-    })
     .goto(acceptEUAFromUrl)
     .then(() => {
       console.log('step 2.');
