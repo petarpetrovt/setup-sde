@@ -14,7 +14,7 @@ See [action.yml](https://github.com/petarpetrovt/setup-sde/.github/actions/setup
 
 ```
 steps:
-- uses: petarpetrovt/setup-sde@v0.1-alpha
+- uses: petarpetrovt/setup-sde@v0.3-alpha
   with:
     environmentVariableName: 'SDE_PATH' # USE SDE_PATH variable
 ```
