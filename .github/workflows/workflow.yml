@@ -11,21 +11,7 @@ jobs:
      - name: Checkout
        uses: actions/checkout@v2
 
-     - name: Setup node
-       uses: actions/setup-node@v1
-       
-     - name: Install NPM
-       run: npm install 'installer/'
-
-     - name: Run test headless
-       uses: GabrielBB/xvfb-action@v1.0
+     - name: Test
+       uses: petarpetrovt/setup-sde@master
        with:
-         run: node installer/index.js
-
-     #- name: Setup SDE
-     #  uses: petarpetrovt/setup-sde@feature/env
-     #  with:
-     #    environmentVariableName: TEST_SDE_PATH
-
-     - name: Assert TEST_SDE_PATH
-       run: echo $TEST_SDE_PATH
+         environmentVariableName: TEST_SDE_PATH

@@ -1,3 +1,4 @@
 @types/
 .output/
 node_modules/
+/.vs

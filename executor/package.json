@@ -1,20 +1,19 @@
 {
-  "private": true,
-  "version": "0.0.1",
-  "name": "executor",
-  "main": "index.js",
-  "scripts": {
-    "prebuild": "npm install",
-    "build": "node node_modules\\@zeit\\ncc\\dist\\ncc\\cli.js build index.ts -m",
-    "prestart": "npm run build",
-    "start": "node dist\\index.js"
-  },
-  "dependencies": {
-    "@actions/core": "^1.2.2",
-    "@actions/exec": "^1.0.3"
-  },
-  "devDependencies": {
-    "@types/node": "^12.12.2",
-    "@zeit/ncc": "^0.21.0"
-  }
+	"private": true,
+	"name": "executor",
+	"main": "index.js",
+	"scripts": {
+		"prebuild": "npm install",
+		"build": "node node_modules\\@zeit\\ncc\\dist\\ncc\\cli.js build index.ts -m",
+		"prestart": "npm run build",
+		"start": "node dist\\index.js"
+	},
+	"dependencies": {
+		"@actions/core": "^1.2.2",
+		"@actions/exec": "^1.0.3"
+	},
+	"devDependencies": {
+		"@types/node": "^12.12.2",
+		"@zeit/ncc": "^0.21.0"
+	}
 }

@@ -2,10 +2,6 @@
 
 ![Main workflow](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg)
 
-```
-WARNING: This is a experimental project!
-```
-
 This action sets up a Intel's SDE binaries for use in actions by:
 
 * accepting Intel's [What If Pre-Release License Agreement](https://software.intel.com/protected-download/267266/144917)
@@ -21,11 +17,6 @@ steps:
 - uses: petarpetrovt/setup-sde@v0.1-alpha
   with:
     environmentVariableName: 'SDE_PATH' # USE SDE_PATH variable
-```
-
-TODO: Ubuntu
-```
-apt-get install -y libgtk2.0-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb
 ```
 
 ## Authors
