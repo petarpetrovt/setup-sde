@@ -17,7 +17,7 @@ async function run(): Promise<void> {
 
         const executor: CommandExecutor = await CommandExecutor.create(installerDirectoryPath, installerSdePathPrefix);
 
-        await executor.execute("npm", ["start"], true);
+        await executor.execute("npm", ["run", "start"], true);
 
         if (!executor.sdePath || executor.sdePath.length <= 0) {
             throw new Error("Could not provide SDE binaries path.");

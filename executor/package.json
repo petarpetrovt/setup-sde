@@ -1,10 +1,12 @@
 {
 	"private": true,
+	"version": "0.0.0",
 	"name": "executor",
 	"main": "index.js",
+	"license": "MIT",
 	"scripts": {
 		"prebuild": "npm install",
-		"build": "node node_modules\\@zeit\\ncc\\dist\\ncc\\cli.js build index.ts -m -o ./",
+		"build": "ncc build index.ts -m -o ./",
 		"prestart": "npm run build",
 		"start": "node index.js"
 	},
@@ -14,6 +16,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^12.12.2",
-		"@zeit/ncc": "^0.21.0"
+		"@zeit/ncc": "^0.21.0",
+		"typescript": "^3.7.5"
 	}
 }
