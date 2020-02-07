@@ -4,13 +4,9 @@
     "module": "commonjs",
     "strict": true,
     "noImplicitAny": true,
-    "esModuleInterop": true,
-    "outDir": "dist"
+    "esModuleInterop": true
   },
   "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_nodules/**/*.ts"
+    "*.ts"
   ]
 }

@@ -2,6 +2,10 @@
 	"private": true,
 	"name": "installer",
 	"main": "index.js",
+	"scripts": {
+		"prestart": "npm install",
+		"start": "node index.js"
+	},
 	"dependencies": {
 		"nightmare": "^3.0.2",
 		"nightmare-download-manager": "^0.2.5",

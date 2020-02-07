@@ -67,7 +67,7 @@ export class CommandExecutor {
 
     private async cleanUpXvfb(): Promise<void> {
         try {
-            await exec("bash", ["../cleanup.sh"]);
+            await exec("bash", ["./cleanup.sh"]);
         } catch {
 
         }
