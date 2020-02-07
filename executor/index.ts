@@ -22,7 +22,7 @@ async function run(): Promise<void> {
 
         await executor.execute("npm", ["install"]);
 
-        await executor.execute("node", [installerFileName], true);
+        await executor.execute("node", [installerFileName], true, true);
 
         if (!executor.sdePath || executor.sdePath.length <= 0) {
             throw new Error("Could not provide SDE binaries path.");
