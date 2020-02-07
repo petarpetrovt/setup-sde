@@ -2,12 +2,12 @@ name: Build
 on:
   push:
     branches:
-        - master
+      - master
     paths-ignore:
-        - '**.md'
-    pull_request:
-      paths-ignore:
-        - '**.md'
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
 jobs:
   build:
     name: Build on ${{ matrix.os }}
@@ -18,23 +18,18 @@ jobs:
     steps:
      - name: Checkout
        uses: actions/checkout@v2
-
      - name: Setup Node
        uses: actions/setup-node@v1
-     
      - name: Install NPM
        run: npm install
        working-directory: ./executor
-
      - name: Build executor
        run: npm run build
        working-directory: ./executor
-
      - name: Run setup-sde
        uses: petarpetrovt/setup-sde@master
        with:
          environmentVariableName: TEST_SDE_PATH
-
      - name: Test setup-sde
        run: npm run test TEST_SDE_PATH
        working-directory: ./executor
