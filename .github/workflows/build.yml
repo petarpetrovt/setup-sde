@@ -16,3 +16,8 @@ jobs:
      
      - name: Build executor
        run: npm run build
+       working-directory: ./executor
+       
+     #- name: Build installer
+     #  run: npm run build
+     #  working-directory: ./installer
