@@ -1,11 +1,11 @@
 {
 	"private": true,
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"name": "executor",
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"prebuild": "npm install | npm install -g @zeit/ncc",
+		"prebuild": "npm install",
 		"build": "ncc build index.ts --minify --out ./ --no-cache",
 		"prestart": "npm run build",
 		"start": "node index.js"

@@ -20,6 +20,8 @@ async function run(): Promise<void> {
 
         const executor: CommandExecutor = await CommandExecutor.create(installerDirectoryPath, installerSdePathPrefix);
 
+        await executor.execute("npm", ["install"]);
+
         await executor.execute("node", [installerFileName], true);
 
         if (!executor.sdePath || executor.sdePath.length <= 0) {
