@@ -17,7 +17,12 @@ jobs:
      - name: Build executor
        run: npm run build
        working-directory: ./executor
-       
-     #- name: Build installer
-     #  run: npm run build
-     #  working-directory: ./installer
+
+     - name: Run setup-sde
+       uses: petarpetrovt/setup-sde@improve-workflows
+       with:
+         environmentVariableName: TEST_SDE_PATH
+
+     - name: Test setup-sde
+       run: npm run test TEST_SDE_PATH
+       working-directory: ./executor
