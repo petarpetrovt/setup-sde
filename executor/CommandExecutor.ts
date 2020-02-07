@@ -78,6 +78,8 @@ export class CommandExecutor {
 
     private processOutput(value: any): void {
         if (value) {
+            core.warning(`OUTPUT: ${value.toString()}`);
+
             const valueString: string = value.toString();
             if (valueString.startsWith(this._sdePathPrefix)) {
                 this.sdePath = valueString
