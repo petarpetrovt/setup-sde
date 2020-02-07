@@ -1,8 +1,8 @@
-name: Build
+name: Test
 on: [push]
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
+    name: Run on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -11,7 +11,7 @@ jobs:
      - name: Checkout
        uses: actions/checkout@v2
 
-     - name: Test
-       uses: petarpetrovt/setup-sde@v0.3-alpha
+     - name: Run setup-sde
+       uses: petarpetrovt/setup-sde@fix-paths
        with:
          environmentVariableName: TEST_SDE_PATH

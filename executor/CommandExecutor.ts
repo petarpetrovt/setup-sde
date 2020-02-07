@@ -1,46 +1,33 @@
-import * as core from '@actions/core';
 import { exec } from '@actions/exec';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
+import path from 'path';
 
 export class CommandExecutor {
     private readonly _directory: string;
-    private readonly _sdePathPrefix: string;
-    public sdePath: string | null;
 
-    private constructor(directory: string, sdePathPrefix: string) {
+    private constructor(directory: string) {
         if (typeof directory !== "string" || directory.length <= 0) {
             throw new Error(`Invalid command executor directory.`);
         }
 
-        if (typeof sdePathPrefix !== "string" || sdePathPrefix.length <= 0) {
-            throw new Error(`Invalid SDE path prefix.`);
-        }
-
         this._directory = directory;
-        this._sdePathPrefix = sdePathPrefix;
-        this.sdePath = null;
     }
 
-    public async execute(value: string, args: string[] | undefined, processOutput: boolean = false): Promise<void> {
+    public async execute(value: string, args: string[] | undefined, requiresXvfb: boolean = false): Promise<void> {
         if (typeof value !== "string" || value.length <= 0) {
             throw new Error(`Can't execute empty command.`);
         }
 
-        let options: ExecOptions = {
-            cwd: this._directory
-        };
+        let options: ExecOptions = {};
 
-        if (processOutput === true) {
-            options.listeners = {
-                stdout: (data: any) => this.processOutput(data),
-                stderr: (data: any) => this.processError(data)
-            };
+        if (!requiresXvfb) {
+            options.cwd = this._directory;
         }
 
         const isLinux: boolean = process.platform === "linux";
 
         try {
-            if (isLinux) {
+            if (isLinux && requiresXvfb) {
                 const xvfbArgs: string[] = typeof args !== "undefined" && args.length > 0
                     ? ["--auto-servernum", value].concat(args)
                     : ["--auto-servernum", value];
@@ -50,7 +37,7 @@ export class CommandExecutor {
                 await exec(value, args, options);
             }
         } finally {
-            if (isLinux) {
+            if (isLinux && requiresXvfb) {
                 await this.cleanUpXvfb();
             }
         }
@@ -67,34 +54,14 @@ export class CommandExecutor {
 
     private async cleanUpXvfb(): Promise<void> {
         try {
-            await exec("bash", ["../cleanup.sh"]);
+            await exec("bash", [path.join(__dirname, "../cleanup.sh")]);
         } catch {
 
         }
     }
 
-    private processOutput(value: any): void {
-        if (value) {
-            const valueString: string = value.toString();
-            if (valueString.startsWith(this._sdePathPrefix)) {
-                this.sdePath = valueString
-                    .substring(this._sdePathPrefix.length)
-                    .trim();
-            }
-            else {
-                core.debug(valueString);
-            }
-        }
-    }
-
-    private processError(value: any): void {
-        if (value) {
-            core.error(value.toString());
-        }
-    }
-
-    public static async create(directory: string, sdePathPrefix: string): Promise<CommandExecutor> {
-        const result = new CommandExecutor(directory, sdePathPrefix);
+    public static async create(directory: string): Promise<CommandExecutor> {
+        const result = new CommandExecutor(directory);
 
         await result.prepare();
 

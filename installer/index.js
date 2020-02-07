@@ -1,3 +1,4 @@
+const core = require("@actions/core");
 const Nightmare = require("nightmare");
 const _7z = require('7zip-min');
 const fs = require('fs');
@@ -84,14 +85,21 @@ async function getSDEPath(acceptEUAFromUrl, ) {
 
 async function run() {
   try {
+    const environmentVariableName = core.getInput("environmentVariableName") || "SDE_PATH";
+    core.debug(`environmentVariableName: ${environmentVariableName}`);
+
+    if (!environmentVariableName || environmentVariableName.length <= 0) {
+      core.setFailed("Missing enviroment variable name.");
+      return;
+    }
+
     // TODO: argument
     const acceptEUAFromUrl = "https://software.intel.com/protected-download/267266/144917";
     const sdePath = await getSDEPath(acceptEUAFromUrl);
 
-    // output
-    console.log(`SDE_PATH:${sdePath}`);
-  } catch (error) {
-    console.error(error);
+    core.exportVariable(environmentVariableName, sdePath);
+  } catch (e) {
+    core.setFailed(`An error has occured while setuping SDE binaries: ${e.message}`);
   }
 }
 

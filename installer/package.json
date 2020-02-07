@@ -1,8 +1,14 @@
 {
 	"private": true,
+	"version": "0.0.1",
 	"name": "installer",
 	"main": "index.js",
+	"scripts": {
+		"prestart": "npm install",
+		"start": "node index.js"
+	},
 	"dependencies": {
+		"@actions/core": "^1.2.2",
 		"nightmare": "^3.0.2",
 		"nightmare-download-manager": "^0.2.5",
 		"7zip-min": "^1.1.1",

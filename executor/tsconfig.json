@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES2015",
+    "moduleResolution": "Node",
     "strict": true,
     "noImplicitAny": true,
-    "esModuleInterop": true,
-    "outDir": "dist"
+    "esModuleInterop": true
   },
   "include": [
-    "**/*.ts"
+    "*.ts"
   ],
   "exclude": [
-    "node_nodules/**/*.ts"
+    "node_modules/**/*.ts"
   ]
 }
