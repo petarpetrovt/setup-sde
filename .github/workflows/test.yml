@@ -12,6 +12,6 @@ jobs:
        uses: actions/checkout@v2
 
      - name: Run setup-sde
-       uses: petarpetrovt/setup-sde@fix-paths
+       uses: petarpetrovt/setup-sde@improve-workflows
        with:
          environmentVariableName: TEST_SDE_PATH
