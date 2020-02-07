@@ -26,11 +26,13 @@ export class CommandExecutor {
             throw new Error(`Can't execute empty command.`);
         }
 
-        let options: ExecOptions = {
-            cwd: this._directory
-        };
+        let options: ExecOptions = {};
 
-        if (processOutput === true) {
+        if (!requiresXvfb) {
+            options.cwd = this._directory;
+        }
+
+        if (processOutput) {
             options.listeners = {
                 stdout: (data: any) => this.processOutput(data),
                 stderr: (data: any) => this.processError(data)
