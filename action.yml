@@ -8,4 +8,4 @@ inputs:
     required: true
 runs:
   using: node12
-  main: executor/index.js
+  main: executor/dist/index.js

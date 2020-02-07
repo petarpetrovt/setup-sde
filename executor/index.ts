@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import * as path from 'path';
 import { CommandExecutor } from './CommandExecutor';
 
-const installerDirectoryPath = path.join(__dirname, "../installer");
+const installerDirectoryPath = path.join(__dirname, "../../installer");
 const installerFileName = "index.js";
 const installerSdePathPrefix = `SDE_PATH:`;
 
