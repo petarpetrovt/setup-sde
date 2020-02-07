@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"prebuild": "npm install",
-		"build": "ncc build index.ts -m -o ./",
+		"prebuild": "npm install | npm install -g @zeit/ncc",
+		"build": "ncc build index.ts --minify --out ./ --no-cache",
 		"prestart": "npm run build",
 		"start": "node index.js"
 	},
@@ -16,7 +16,6 @@
 	},
 	"devDependencies": {
 		"@types/node": "^12.12.2",
-		"@zeit/ncc": "^0.21.0",
 		"typescript": "^3.7.5"
 	}
 }

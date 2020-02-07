@@ -15,6 +15,8 @@ async function run(): Promise<void> {
             return;
         }
 
+        core.debug(`Installer path: ${installerDirectoryPath}`);
+
         const executor: CommandExecutor = await CommandExecutor.create(installerDirectoryPath, installerSdePathPrefix);
 
         await executor.execute("npm", ["run", "start"], true);
