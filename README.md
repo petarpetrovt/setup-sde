@@ -4,9 +4,9 @@
 
 This action sets up a Intel's SDE binaries for use in actions by:
 
-* accepting Intel's [What If Pre-Release License Agreement](https://software.intel.com/protected-download/267266/144917)
-* downloading SDE binaries for current platform
-* TODO: caching a version of SDE by (version and|or os) and adding to PATH
+* Accepting Intel's [What If Pre-Release License Agreement](https://software.intel.com/protected-download/267266/144917)
+* Downloading and extracting SDE binaries
+* Providing environment variable
 
 ## Usage
 
@@ -14,7 +14,7 @@ See [action.yml](https://github.com/petarpetrovt/setup-sde/action.yml)
 
 ```
 steps:
-- uses: petarpetrovt/setup-sde@v0.3-alpha
+- uses: petarpetrovt/setup-sde@v1
   with:
     environmentVariableName: 'SDE_PATH'
 ```
