@@ -10,7 +10,7 @@ This action sets up a Intel's SDE binaries for use in actions by:
 
 ## Usage
 
-See [action.yml](https://github.com/petarpetrovt/setup-sde/action.yml)
+See [action.yml](action.yml)
 
 ```
 - name: Setup SDE binaries
