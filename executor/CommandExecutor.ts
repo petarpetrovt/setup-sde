@@ -21,7 +21,7 @@ export class CommandExecutor {
         this.sdePath = null;
     }
 
-    public async execute(value: string, args: string[] | undefined, processOutput: boolean = false): Promise<void> {
+    public async execute(value: string, args: string[] | undefined, processOutput: boolean = false, requiresXvfb: boolean = false): Promise<void> {
         if (typeof value !== "string" || value.length <= 0) {
             throw new Error(`Can't execute empty command.`);
         }
@@ -40,7 +40,7 @@ export class CommandExecutor {
         const isLinux: boolean = process.platform === "linux";
 
         try {
-            if (isLinux) {
+            if (isLinux && requiresXvfb) {
                 const xvfbArgs: string[] = typeof args !== "undefined" && args.length > 0
                     ? ["--auto-servernum", value].concat(args)
                     : ["--auto-servernum", value];
@@ -50,7 +50,7 @@ export class CommandExecutor {
                 await exec(value, args, options);
             }
         } finally {
-            if (isLinux) {
+            if (isLinux && requiresXvfb) {
                 await this.cleanUpXvfb();
             }
         }
