@@ -1,6 +1,9 @@
 name: Setup SDE
 description: Downloads Intel's SDE binaries.
 author: Petar Petrov and contributors
+branding:
+  icon: play
+  color: green
 inputs:
   environmentVariableName:
     description: Environment variable name for SDE binaries path
