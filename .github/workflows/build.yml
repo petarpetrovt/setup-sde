@@ -23,7 +23,7 @@ jobs:
        working-directory: ./executor
 
      - name: Run setup-sde
-       uses: petarpetrovt/setup-sde@improve-workflows
+       uses: petarpetrovt/setup-sde@master
        with:
          environmentVariableName: TEST_SDE_PATH
 
