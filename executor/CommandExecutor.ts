@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import { exec } from '@actions/exec';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
+import path from 'path';
 
 export class CommandExecutor {
     private readonly _directory: string;
@@ -69,7 +70,7 @@ export class CommandExecutor {
 
     private async cleanUpXvfb(): Promise<void> {
         try {
-            await exec("bash", ["../cleanup.sh"]);
+            await exec("bash", [path.join(__dirname, "../cleanup.sh")]);
         } catch {
 
         }
