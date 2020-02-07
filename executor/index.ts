@@ -3,6 +3,7 @@ import * as path from 'path';
 import { CommandExecutor } from './CommandExecutor';
 
 const installerDirectoryPath = path.resolve("../installer");
+const installerFileName = path.resolve("index.js");
 const installerSdePathPrefix = `SDE_PATH:`;
 
 async function run(): Promise<void> {
@@ -19,7 +20,7 @@ async function run(): Promise<void> {
 
         const executor: CommandExecutor = await CommandExecutor.create(installerDirectoryPath, installerSdePathPrefix);
 
-        await executor.execute("npm run", ["start"], true);
+        await executor.execute("node", [installerFileName], true);
 
         if (!executor.sdePath || executor.sdePath.length <= 0) {
             throw new Error("Could not provide SDE binaries path.");
