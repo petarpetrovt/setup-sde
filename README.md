@@ -1,14 +1,11 @@
 # setup-sde
 
 <p align="left">
-    <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ABuild" alt="Contributors">
-        <img src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master" />
+    <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ABuild" alt="Build">
+        <img alt="Build" src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master" />
     </a>
     <a href="https://github.com/petarpetrovt/setup-sde/graphs/contributors" alt="Contributors">
-        <img src="https://img.shields.io/github/contributors/petarpetrovt/setup-sde" />
-    </a>
-    <a href="https://github.com/petarpetrovt/setup-sde/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/petarpetrovt/setup-sde" />
+        <img alt="Contributors" src="https://img.shields.io/github/contributors/petarpetrovt/setup-sde?label=Contributors">
     </a>
 </p>
 
