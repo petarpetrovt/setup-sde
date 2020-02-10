@@ -2,6 +2,18 @@
 
 ![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master)
 
+<p align="left">
+    <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ABuild" alt="Contributors">
+        <img src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master" />
+    </a>
+    <a href="https://github.com/petarpetrovt/setup-sde/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/github/contributors/petarpetrovt/setup-sde" />
+    </a>
+    <a href="https://github.com/petarpetrovt/setup-sde/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/petarpetrovt/setup-sde" />
+    </a>
+</p>
+
 This action sets up a Intel's SDE binaries for use in actions by:
 
 * Accepting Intel's [What If Pre-Release License Agreement](https://software.intel.com/protected-download/267266/144917)
