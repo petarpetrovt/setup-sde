@@ -1,7 +1,5 @@
 # setup-sde
 
-![Build](https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master)
-
 <p align="left">
     <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ABuild" alt="Contributors">
         <img src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master" />
