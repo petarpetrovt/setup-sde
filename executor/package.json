@@ -10,12 +10,12 @@
 		"test": "node tester.js"
 	},
 	"dependencies": {
-		"@actions/core": "^1.2.2",
+		"@actions/core": "^1.2.4",
 		"@actions/exec": "^1.0.3"
 	},
 	"devDependencies": {
 		"@types/node": "^12.12.2",
-		"@zeit/ncc": "^0.21.0",
+		"@zeit/ncc": "^0.22.1",
 		"typescript": "^3.7.5"
 	}
 }

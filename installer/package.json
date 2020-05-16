@@ -4,10 +4,10 @@
 	"name": "installer",
 	"main": "index.js",
 	"dependencies": {
-		"@actions/core": "^1.2.2",
+		"@actions/core": "^1.2.4",
 		"nightmare": "^3.0.2",
 		"nightmare-download-manager": "^0.2.5",
-		"7zip-min": "^1.1.1",
+		"7zip-min": "^1.1.2",
 		"fs-extra": "^8.1.0"
 	}
 }
