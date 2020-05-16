@@ -8,13 +8,13 @@ require("nightmare-download-manager")(Nightmare);
 function getOSHyperLinkSelector() {
   switch (process.platform) {
     case "win32": {
-      return `a[href$="win.tar.bz2"]`;
+      return `a[data-id$="win.tar.bz2"]`;
     }
     case "darwin": {
-      return `a[href$="mac.tar.bz2"]`;
+      return `a[data-id$="mac.tar.bz2"]`;
     }
     case "linux": {
-      return `a[href$="lin.tar.bz2"]`;
+      return `a[data-id$="lin.tar.bz2"]`;
     }
     default: {
       throw new Error(`Platform '${process.platform}' is not supported in this context.`);
@@ -44,7 +44,7 @@ function unzip(tarBzPath, tarPath, outputDir) {
   });
 }
 
-async function getSDEPath(acceptEUAFromUrl, ) {
+async function getSDEPath(downloadUrl) {
   const outputDir = path.resolve(`.output`);
   const tarBzPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
   const tarPath = path.join(outputDir, `sde-temp-file.tar`);
@@ -59,12 +59,12 @@ async function getSDEPath(acceptEUAFromUrl, ) {
 
   await nightmare
     .downloadManager()
-    .goto(acceptEUAFromUrl)
-    .wait("#intel-licensed-dls-step-1")
-    .check("#intel-licensed-dls-step-1 input[name='accept_license']")
-    .click("#intel-licensed-dls-step-1 input[type='submit']")
-    .wait("#intel-licensed-dls-step-2")
-    .evaluate((selector) => document.querySelector(selector).click(), getOSHyperLinkSelector())
+    .goto(downloadUrl)
+    .wait(".editorialPostContent")
+    .evaluate((selector) => {
+      const url = document.querySelector(selector).attributes["data-id-url"].value;
+      document.location.replace(url);
+    }, getOSHyperLinkSelector())
     .waitDownloadsComplete()
     .end()
     .catch(error => {
@@ -94,8 +94,8 @@ async function run() {
     }
 
     // TODO: argument
-    const acceptEUAFromUrl = "https://software.intel.com/protected-download/267266/144917";
-    const sdePath = await getSDEPath(acceptEUAFromUrl);
+    const downloadUrl = "https://software.intel.com/content/www/us/en/develop/articles/pre-release-license-agreement-for-intel-software-development-emulator-accept-end-user-license-agreement-and-download.html";
+    const sdePath = await getSDEPath(downloadUrl);
 
     core.exportVariable(environmentVariableName, sdePath);
   } catch (e) {
