@@ -8,13 +8,13 @@ require("nightmare-download-manager")(Nightmare);
 function getOSHyperLinkSelector() {
   switch (process.platform) {
     case "win32": {
-      return `a[data-id$="win.tar.bz2"]`;
+      return `a[href$="win.tar.bz2"]`;
     }
     case "darwin": {
-      return `a[data-id$="mac.tar.bz2"]`;
+      return `a[href$="mac.tar.bz2"]`;
     }
     case "linux": {
-      return `a[data-id$="lin.tar.bz2"]`;
+      return `a[href$="lin.tar.bz2"]`;
     }
     default: {
       throw new Error(`Platform '${process.platform}' is not supported in this context.`);
@@ -62,7 +62,7 @@ async function getSDEPath(downloadUrl) {
     .goto(downloadUrl)
     .wait(".editorialPostContent")
     .evaluate((selector) => {
-      const url = document.querySelector(selector).attributes["data-id-url"].value;
+      const url = document.querySelector(selector).attributes["href"].value;
       document.location.replace(url);
     }, getOSHyperLinkSelector())
     .waitDownloadsComplete()
