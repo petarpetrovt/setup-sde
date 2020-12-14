@@ -4,6 +4,9 @@
     <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ABuild" alt="Build">
         <img alt="Build" src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master" />
     </a>
+    <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ACodeQL" alt="CodeQL">
+        <img alt="CodeQL" src="https://github.com/petarpetrovt/setup-sde/workflows/CodeQL/badge.svg?branch=master" />
+    </a>
     <a href="https://github.com/petarpetrovt/setup-sde/graphs/contributors" alt="Contributors">
         <img alt="Contributors" src="https://img.shields.io/github/contributors/petarpetrovt/setup-sde?label=Contributors">
     </a>
@@ -21,7 +24,7 @@ See [action.yml](action.yml)
 
 ```
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v0.8
+  uses: petarpetrovt/setup-sde@v0.9
   with:
     environmentVariableName: SDE_PATH
 ```
