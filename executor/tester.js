@@ -17,12 +17,13 @@ try {
         core.info(`Succesfly asserted environment variable with name '${environmentVariableName}' and value '${environmentVariableValue}'.`);
     }
 
-    if (!fs.existsSync(environmentVariableValue)) {
-        core.setFailed(`Path '${environmentVariableValue}' doesn't exist.`);
-    }
-
     try {
         const folderPath = path.join(process.cwd(), ...environmentVariableValue.split("/"));
+
+        if (!fs.existsSync(folderPath)) {
+            core.setFailed(`Path '${folderPath}' doesn't exist.`);
+        }
+
         const filePaths = fs
             .readdirSync(folderPath, { withFileTypes: true })
             .filter((dirent) => dirent.isFile())
