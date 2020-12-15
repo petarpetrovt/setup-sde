@@ -1,9 +1,8 @@
 const core = require('@actions/core');
 const exec = require('@actions/exec');
 const { promisify } = require('util');
-const { resolve, combine } = require('path');
+const path = require('path');
 const fs = require('fs');
-const { pathToFileURL } = require('url');
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
 
@@ -38,7 +37,7 @@ async function test() {
         }
 
         try {
-            const sdePathExecutable = combine(environmentVariableValue, "sde");
+            const sdePathExecutable = path.combine(environmentVariableValue, "sde");
 
             await exec.exec(`${sdePathExecutable} -version`);
         } catch (err) {
@@ -54,7 +53,7 @@ async function test() {
 async function getFiles(dir) {
     const subdirs = await readdir(dir);
     const files = await Promise.all(subdirs.map(async (subdir) => {
-        const res = resolve(dir, subdir);
+        const res = path.resolve(dir, subdir);
         return (await stat(res)).isDirectory() ? getFiles(res) : res;
     }));
     return files.reduce((a, f) => a.concat(f), []);
