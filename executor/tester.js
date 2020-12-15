@@ -1,7 +1,9 @@
 const core = require('@actions/core');
+const exec = require('@actions/exec');
 const { promisify } = require('util');
-const { resolve } = require('path');
+const { resolve, combine } = require('path');
 const fs = require('fs');
+const { pathToFileURL } = require('url');
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
 
@@ -33,6 +35,13 @@ try {
         core.setFailed(err);
     }
 
+    try {
+        const sdePathExecutable = combine(environmentVariableValue, "sde");
+
+        await exec.exec(`${sdePathExecutable} -version`);
+    } catch (err) {
+        core.setFailed(err);
+    }
 }
 catch (e) {
     core.warning(e.message);
