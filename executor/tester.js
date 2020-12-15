@@ -27,7 +27,7 @@ try {
 
         core.info(`Directory files:`);
         getFiles(environmentVariableValue)
-            .then(files => core.info(files))
+            .then(files => files.files(file => core.info(file)))
             .catch(e => core.setFailed(e));
     } catch (err) {
         core.setFailed(err);
