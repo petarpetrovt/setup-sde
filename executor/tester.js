@@ -37,7 +37,7 @@ async function test() {
         }
 
         try {
-            const sdePathExecutable = path.combine(environmentVariableValue, "sde");
+            const sdePathExecutable = path.join(environmentVariableValue, "sde");
 
             await exec.exec(`${sdePathExecutable} -version`);
         } catch (err) {

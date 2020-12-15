@@ -5,6 +5,7 @@ on:
       - master
     paths-ignore:
       - '**.md'
+      - 'codeql-analysis.yml'
   pull_request:
     paths-ignore:
       - '**.md'
