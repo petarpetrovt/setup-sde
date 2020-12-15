@@ -7,45 +7,48 @@ const { pathToFileURL } = require('url');
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
 
-try {
-    const environmentVariableName = process.argv[2];
-    if (typeof environmentVariableName !== "string" || environmentVariableName.length <= 0) {
-        core.setFailed(`Missing environment variable name.`);
-    } else {
-        core.info(`Asserting environment variable with name '${environmentVariableName}'.`);
-    }
-
-    const environmentVariableValue = process.env[environmentVariableName];
-    if (typeof environmentVariableValue !== "string" || environmentVariableValue.length <= 0) {
-        core.setFailed(`Missing environment variable with name '${environmentVariableName}'.`);
-    } else {
-        core.info(`Succesfly asserted environment variable with name '${environmentVariableName}' and value '${environmentVariableValue}'.`);
-    }
-
+async function test() {
     try {
-        if (!fs.existsSync(environmentVariableValue)) {
-            core.setFailed(`Path '${environmentVariableValue}' doesn't exist.`);
+        const environmentVariableName = process.argv[2];
+        if (typeof environmentVariableName !== "string" || environmentVariableName.length <= 0) {
+            core.setFailed(`Missing environment variable name.`);
+        } else {
+            core.info(`Asserting environment variable with name '${environmentVariableName}'.`);
         }
 
-        core.info(`Directory files:`);
-        getFiles(environmentVariableValue)
-            .then(files => files.forEach(file => core.info(file)))
-            .catch(e => core.setFailed(e));
-    } catch (err) {
-        core.setFailed(err);
-    }
+        const environmentVariableValue = process.env[environmentVariableName];
+        if (typeof environmentVariableValue !== "string" || environmentVariableValue.length <= 0) {
+            core.setFailed(`Missing environment variable with name '${environmentVariableName}'.`);
+        } else {
+            core.info(`Succesfly asserted environment variable with name '${environmentVariableName}' and value '${environmentVariableValue}'.`);
+        }
 
-    try {
-        const sdePathExecutable = combine(environmentVariableValue, "sde");
+        try {
+            if (!fs.existsSync(environmentVariableValue)) {
+                core.setFailed(`Path '${environmentVariableValue}' doesn't exist.`);
+            }
 
-        await exec.exec(`${sdePathExecutable} -version`);
-    } catch (err) {
-        core.setFailed(err);
+            core.info(`Directory files:`);
+
+            const files = await getFiles(environmentVariableValue);
+
+            files.forEach(file => core.info(file));
+        } catch (err) {
+            core.setFailed(err);
+        }
+
+        try {
+            const sdePathExecutable = combine(environmentVariableValue, "sde");
+
+            await exec.exec(`${sdePathExecutable} -version`);
+        } catch (err) {
+            core.setFailed(err);
+        }
     }
-}
-catch (e) {
-    core.warning(e.message);
-    core.setFailed(`An error has occured while asserting environment variable with name '${environmentVariableName}'.`);
+    catch (e) {
+        core.warning(e.message);
+        core.setFailed(`An error has occured while asserting environment variable with name '${environmentVariableName}'.`);
+    }
 }
 
 async function getFiles(dir) {
@@ -56,3 +59,5 @@ async function getFiles(dir) {
     }));
     return files.reduce((a, f) => a.concat(f), []);
 }
+
+test();
