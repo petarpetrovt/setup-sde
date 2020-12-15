@@ -1,6 +1,9 @@
-const fs = require('fs');
 const core = require('@actions/core');
-const path = require("path");
+const { promisify } = require('util');
+const { resolve } = require('path');
+const fs = require('fs');
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
 
 try {
     const environmentVariableName = process.argv[2];
@@ -22,15 +25,10 @@ try {
             core.setFailed(`Path '${environmentVariableValue}' doesn't exist.`);
         }
 
-        const filePaths = fs
-            .readdirSync(environmentVariableValue, { withFileTypes: true })
-            .filter((dirent) => dirent.isFile())
-            .map((dirent) => dirent.name.split(".")[0]);
-
         core.info(`Directory files:`);
-        filePaths.forEach(filePath => {
-            core.info(filePath);
-        });
+        getFiles(environmentVariableValue)
+            .then(files => core.info(files))
+            .catch(e => core.setFailed(e));
     } catch (err) {
         core.setFailed(err);
     }
@@ -39,4 +37,13 @@ try {
 catch (e) {
     core.warning(e.message);
     core.setFailed(`An error has occured while asserting environment variable with name '${environmentVariableName}'.`);
+}
+
+async function getFiles(dir) {
+    const subdirs = await readdir(dir);
+    const files = await Promise.all(subdirs.map(async (subdir) => {
+        const res = resolve(dir, subdir);
+        return (await stat(res)).isDirectory() ? getFiles(res) : res;
+    }));
+    return files.reduce((a, f) => a.concat(f), []);
 }
