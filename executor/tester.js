@@ -18,14 +18,12 @@ try {
     }
 
     try {
-        const folderPath = path.join(process.cwd(), ...environmentVariableValue.split("/"));
-
-        if (!fs.existsSync(folderPath)) {
-            core.setFailed(`Path '${folderPath}' doesn't exist.`);
+        if (!fs.existsSync(environmentVariableValue)) {
+            core.setFailed(`Path '${environmentVariableValue}' doesn't exist.`);
         }
 
         const filePaths = fs
-            .readdirSync(folderPath, { withFileTypes: true })
+            .readdirSync(environmentVariableValue, { withFileTypes: true })
             .filter((dirent) => dirent.isFile())
             .map((dirent) => dirent.name.split(".")[0]);
 
