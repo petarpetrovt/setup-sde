@@ -8,14 +8,17 @@ const installerPath = path.join(installerDirectoryPath, installerFileName);
 
 async function run(): Promise<void> {
     try {
-        core.debug(`Installer path: ${installerDirectoryPath}`);
-
         const executor: CommandExecutor = await CommandExecutor.create(installerDirectoryPath);
+
+        core.info(`Running installer: ${installerDirectoryPath}`);
         await executor.execute('npm', ['install'], false);
         await executor.execute('node', [installerPath], true);
+        core.info(`Finished installing.`);
 
         if (process.platform != "win32") {
             // chmod -R +x
+            core.info(`Running chmod for ${process.platform} platform.`);
+
             const executor2: CommandExecutor = await CommandExecutor.create(installerDirectoryPath);
             executor2.execute(`chmod`, ['-R', '+x'], false);
         }

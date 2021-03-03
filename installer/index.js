@@ -86,7 +86,7 @@ async function getSDEPath(downloadUrl) {
 async function run() {
   try {
     const environmentVariableName = core.getInput("environmentVariableName") || "SDE_PATH";
-    core.debug(`environmentVariableName: ${environmentVariableName}`);
+    core.info(`environmentVariableName: ${environmentVariableName}`);
 
     if (!environmentVariableName || environmentVariableName.length <= 0) {
       core.setFailed("Missing enviroment variable name.");
