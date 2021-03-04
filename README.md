@@ -24,7 +24,7 @@ See [action.yml](action.yml)
 
 ```
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v0.9
+  uses: petarpetrovt/setup-sde@v1
   with:
     environmentVariableName: SDE_PATH
 ```

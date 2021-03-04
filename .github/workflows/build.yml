@@ -5,6 +5,7 @@ on:
       - master
     paths-ignore:
       - '**.md'
+      - 'codeql-analysis.yml'
   pull_request:
     paths-ignore:
       - '**.md'
@@ -14,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest]
     steps:
      - name: Checkout
        uses: actions/checkout@v2
@@ -22,14 +23,11 @@ jobs:
        uses: actions/setup-node@v1
      - name: Install NPM
        run: npm install
-       working-directory: ./executor
      - name: Build executor
        run: npm run build
-       working-directory: ./executor
      - name: Run setup-sde
        uses: petarpetrovt/setup-sde@master
        with:
          environmentVariableName: TEST_SDE_PATH
      - name: Test setup-sde
        run: npm run test TEST_SDE_PATH
-       working-directory: ./executor
