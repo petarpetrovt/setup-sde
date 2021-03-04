@@ -1,13 +1,16 @@
 import * as core from '@actions/core';
 import * as path from 'path';
-const _7z = require('7zip-min');
-const fs = require('fs');
+import _7z from '7zip-min';
+import fs from 'fs';
 import fetch from 'node-fetch';
+import util from 'util';
 
-function unzip(tarBzPath: string, tarPath: string, outputDir: string) {
-    const filesPath = path.join(outputDir, `sde-temp-files`);
+const streamPipeline = util.promisify(require('stream').pipeline);
 
-    return new Promise((resolve, reject) => {
+function unzip(tarBzPath: string, tarPath: string, outputDir: string): Promise<string> {
+    const filesPath: string = path.join(outputDir, `sde-temp-files`);
+
+    return new Promise<string>((resolve, reject) => {
         _7z.unpack(tarBzPath, outputDir, (err: any) => {
             if (err) {
                 reject(err);
@@ -51,22 +54,32 @@ async function run(): Promise<void> {
 
         const platform: string = getPlatformIdentifier();
         const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-8.63.0-2021-01-18-${platform}.tar.bz2`;
-
         const outputDir = path.resolve(`.output`);
         const tarBzPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
         const tarPath = path.join(outputDir, `sde-temp-file.tar`);
         const filesPath = path.join(outputDir, `sde-temp-files`);
 
-        // Download archive
-        const file = fs.createWriteStream(tarBzPath);
-        await (await fetch(url)).body.pipe(file);
+        // Ensure output directory
+        fs.mkdir(outputDir, {
+            recursive: true
+        }, (err: any) => {
+            if (err) throw err;
+        });
 
-        const unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir);
-        const filesPaths = fs.readdirSync(unzipedDirectory);
+        // Download archive
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`unexpected response ${response.statusText}`);
+        }
+        await streamPipeline(response.body, fs.createWriteStream(tarBzPath))
+
+        // Unzip archive
+        const unzipedDirectory: string = await unzip(tarBzPath, tarPath, outputDir);
+        const filesPaths: string[] = fs.readdirSync(unzipedDirectory);
 
         if (filesPaths && filesPaths.length === 1) {
+            // Export SDE path
             const sdePath = path.join(filesPath, filesPaths[0]);
-
             core.exportVariable(environmentVariableName, sdePath);
         } else {
             core.setFailed(`Failed to get SDE path.`);
