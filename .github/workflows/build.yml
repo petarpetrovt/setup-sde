@@ -15,19 +15,24 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
      - name: Checkout
        uses: actions/checkout@v2
+
      - name: Setup Node
        uses: actions/setup-node@v1
+
      - name: Install NPM
        run: npm install
-     - name: Build executor
+
+     - name: Build
        run: npm run build
-     - name: Run setup-sde
+
+     - name: Run
        uses: petarpetrovt/setup-sde@master
        with:
          environmentVariableName: TEST_SDE_PATH
-     - name: Test setup-sde
+
+     - name: Test
        run: npm run test TEST_SDE_PATH
