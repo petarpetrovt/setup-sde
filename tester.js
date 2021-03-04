@@ -37,7 +37,9 @@ async function test() {
         }
 
         try {
-            const sdePathExecutable = path.join(environmentVariableValue, "./sde64");
+            await exec.exec(`ls`, ['-l', environmentVariableValue]);
+
+            const sdePathExecutable = path.join(environmentVariableValue, "./sde");
 
             await exec.exec(`${sdePathExecutable}`, ['-version']);
         } catch (err) {
