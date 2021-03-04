@@ -11,4 +11,4 @@ inputs:
     required: true
 runs:
   using: node12
-  main: executor/dist/index.js
+  main: dist/index.js
