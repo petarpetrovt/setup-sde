@@ -74,9 +74,10 @@ async function run(): Promise<void> {
         }
         await streamPipeline(response.body, fs.createWriteStream(tarBzPath))
 
-        // Permissions
-        await exec.exec(`sudo chmod`, ['-R', '777', __dirname]);
-        await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
+        if (process.platform != "win32") {
+            await exec.exec(`sudo chmod`, ['-R', '777', __dirname]);
+            await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
+        }
 
         // Unzip archive
         let unzipedDirectory: string;
@@ -97,8 +98,9 @@ async function run(): Promise<void> {
         const filesPaths: string[] = fs.readdirSync(unzipedDirectory);
 
         if (filesPaths && filesPaths.length === 1) {
-            // Permissions
-            await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
+            if (process.platform != "win32") {
+                await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
+            }
 
             // Export SDE path
             const sdePath = path.join(filesPath, filesPaths[0]);
