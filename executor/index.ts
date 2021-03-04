@@ -1,47 +1,75 @@
 import * as core from '@actions/core';
 import * as path from 'path';
-import { CommandExecutor } from './CommandExecutor';
+const _7z = require('7zip-min');
+const fs = require('fs');
+import fetch from 'node-fetch';
 
-const installerFileName = 'index.js';
-const installerDirectoryPath = path.join(__dirname, '../../installer');
-const installerPath = path.join(installerDirectoryPath, installerFileName);
+function unzip(tarBzPath: string, tarPath: string, outputDir: string) {
+    const filesPath = path.join(outputDir, `sde-temp-files`);
+
+    return new Promise((resolve, reject) => {
+        _7z.unpack(tarBzPath, outputDir, (err: any) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+
+            _7z.unpack(tarPath, filesPath, (err: any) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve(filesPath);
+            });
+        });
+    });
+}
+
+function getPlatformIdentifier(): string {
+    switch (process.platform) {
+        case "win32":
+            return `win`;
+        case "darwin":
+            return `mac`;
+        case "linux":
+            return `lin`;
+        default:
+            throw new Error(`Platform '${process.platform}' is not supported in this context.`);
+    }
+}
 
 async function run(): Promise<void> {
     try {
-        const executor: CommandExecutor = await CommandExecutor.create(installerDirectoryPath);
+        const environmentVariableName = core.getInput("environmentVariableName") || "SDE_PATH";
+        core.info(`environmentVariableName: ${environmentVariableName}`);
 
-        core.info(`Running installer: ${installerDirectoryPath}`);
-        core.info(``);
+        if (!environmentVariableName || environmentVariableName.length <= 0) {
+            core.setFailed("Missing enviroment variable name.");
+            return;
+        }
 
-        await executor.execute('npm', ['install'], false);
-        await executor.execute('node', [installerPath], true);
+        const platform: string = getPlatformIdentifier();
+        const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-8.63.0-2021-01-18-${platform}.tar.bz2`;
 
-        core.info(`Finished installing.`);
-        core.info(``);
+        const outputDir = path.resolve(`.output`);
+        const tarBzPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
+        const tarPath = path.join(outputDir, `sde-temp-file.tar`);
+        const filesPath = path.join(outputDir, `sde-temp-files`);
 
-        if (process.platform != "win32") {
-            // chmod -R +x
-            core.info(`Running chmod for ${process.platform} platform.`);
-            core.info(``);
+        // Download archive
+        const file = fs.createWriteStream(tarBzPath);
+        await (await fetch(url)).body.pipe(file);
 
-            const environmentVariableName = process.argv[2];
-            if (typeof environmentVariableName !== "string" || environmentVariableName.length <= 0) {
-                core.setFailed(`Missing environment variable name.`);
-                return;
-            } else {
-                core.info(`Asserting environment variable with name '${environmentVariableName}'.`);
-            }
+        const unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir);
+        const filesPaths = fs.readdirSync(unzipedDirectory);
 
-            const environmentVariableValue = process.env[environmentVariableName];
-            if (typeof environmentVariableValue !== "string" || environmentVariableValue.length <= 0) {
-                core.setFailed(`Missing environment variable with name '${environmentVariableName}'.`);
-                return;
-            } else {
-                core.info(`Succesfly asserted environment variable with name '${environmentVariableName}' and value '${environmentVariableValue}'.`);
-            }
+        if (filesPaths && filesPaths.length === 1) {
+            const sdePath = path.join(filesPath, filesPaths[0]);
 
-            const executor2: CommandExecutor = await CommandExecutor.create(installerDirectoryPath);
-            executor2.execute(`chmod`, ['-R', '+x', environmentVariableValue], false);
+            core.exportVariable(environmentVariableName, sdePath);
+        } else {
+            core.setFailed(`Failed to get SDE path.`);
         }
     }
     catch (e) {
