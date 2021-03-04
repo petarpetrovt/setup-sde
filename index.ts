@@ -73,7 +73,8 @@ async function run(): Promise<void> {
             throw new Error(`unexpected response ${response.statusText}`);
         }
         await streamPipeline(response.body, fs.createWriteStream(tarBzPath))
-        
+
+        // Permissions
         await exec.exec(`sudo chmod`, ['-R', '777', __dirname]);
         await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
 
@@ -82,6 +83,9 @@ async function run(): Promise<void> {
         const filesPaths: string[] = fs.readdirSync(unzipedDirectory);
 
         if (filesPaths && filesPaths.length === 1) {
+            // Permissions
+            await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
+
             // Export SDE path
             const sdePath = path.join(filesPath, filesPaths[0]);
             core.exportVariable(environmentVariableName, sdePath);
