@@ -79,7 +79,14 @@ async function run(): Promise<void> {
         await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
 
         // Unzip archive
-        const unzipedDirectory: string = await unzip(tarBzPath, tarPath, outputDir);
+        let unzipedDirectory: string;
+        if (process.platform == "darwin") {
+            unzipedDirectory = path.join(outputDir, `sde-temp-files`);
+
+            await exec.exec(`tar`, ['xvf', tarBzPath, '-C', unzipedDirectory]);
+        } else {
+            unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir);
+        }
         const filesPaths: string[] = fs.readdirSync(unzipedDirectory);
 
         if (filesPaths && filesPaths.length === 1) {
