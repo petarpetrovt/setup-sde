@@ -23,14 +23,11 @@ jobs:
        uses: actions/setup-node@v1
      - name: Install NPM
        run: npm install
-       working-directory: ./executor
      - name: Build executor
        run: npm run build
-       working-directory: ./executor
      - name: Run setup-sde
        uses: petarpetrovt/setup-sde@master
        with:
          environmentVariableName: TEST_SDE_PATH
      - name: Test setup-sde
        run: npm run test TEST_SDE_PATH
-       working-directory: ./executor
