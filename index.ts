@@ -1,3 +1,4 @@
+import * as exec from '@actions/exec';
 import * as core from '@actions/core';
 import * as path from 'path';
 import _7z from '7zip-min';
@@ -72,6 +73,9 @@ async function run(): Promise<void> {
             throw new Error(`unexpected response ${response.statusText}`);
         }
         await streamPipeline(response.body, fs.createWriteStream(tarBzPath))
+        
+        await exec.exec(`sudo chmod`, ['-R', '777', __dirname]);
+        await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
 
         // Unzip archive
         const unzipedDirectory: string = await unzip(tarBzPath, tarPath, outputDir);
