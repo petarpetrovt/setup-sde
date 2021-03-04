@@ -83,6 +83,13 @@ async function run(): Promise<void> {
         if (process.platform == "darwin") {
             unzipedDirectory = path.join(outputDir, `sde-temp-files`);
 
+            // Ensure output directory
+            fs.mkdir(unzipedDirectory, {
+                recursive: true
+            }, (err: any) => {
+                if (err) throw err;
+            });
+
             await exec.exec(`tar`, ['xvf', tarBzPath, '-C', unzipedDirectory]);
         } else {
             unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir);
