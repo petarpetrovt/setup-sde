@@ -81,7 +81,7 @@ async function run(): Promise<void> {
 
         // Unzip archive
         let unzipedDirectory: string;
-        if (process.platform == "darwin") {
+        if (process.platform != "win32") {
             unzipedDirectory = path.join(outputDir, `sde-temp-files`);
 
             // Ensure output directory
