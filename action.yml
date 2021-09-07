@@ -14,5 +14,5 @@ inputs:
     defaultValue: 8.69.1-2021-07-18
     required: true
 runs:
-  using: node14
+  using: node12
   main: dist/index.js
