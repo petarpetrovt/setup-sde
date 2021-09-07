@@ -53,7 +53,7 @@ async function run(): Promise<void> {
         }
 
         // Extract tool
-        await tool.extractTar(tarFilePath, extractedFilesPath);
+        await tool.extractTar(tarFilePath, extractedFilesPath, ["xv"]);
 
         // Ensure export path
         const filesPaths: string[] = await fs.promises.readdir(extractedFilesPath);
