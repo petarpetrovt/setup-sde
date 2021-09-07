@@ -69,21 +69,25 @@ async function run(): Promise<void> {
         const tarPath = path.join(outputDir, `sde-temp-file.tar`);
         const filesPath = path.join(outputDir, `sde-temp-files`);
 
+        core.info("Ensuring output directory");
         // Ensure output directory
         await fs.promises.mkdir(outputDir, {
             recursive: true
         });
 
         // Download archive
+        core.info("Fetching url");
         const response = await fetch(url);
         if (!response.ok) {
             core.setFailed(`Unexpected response: ${response.statusText}`);
             return;
         }
 
+        core.info("Parsing response");
         // Parse response
         await streamPipeline(response.body, fs.createWriteStream(tarBzPath))
 
+        core.info("Ensuring file permissions");
         // Ensure file permissions
         if (process.platform != "win32") {
             await exec.exec(`sudo chmod`, ['-R', '777', __dirname]);
@@ -91,6 +95,7 @@ async function run(): Promise<void> {
         }
 
         // Unzip archive
+        core.info("Unzipping");
         let unzipedDirectory: string;
         if (process.platform != "win32") {
             unzipedDirectory = path.join(outputDir, `sde-temp-files`);
@@ -108,6 +113,7 @@ async function run(): Promise<void> {
         }
         const filesPaths: string[] = await fs.promises.readdir(unzipedDirectory);
 
+        core.info("Done");
         if (filesPaths && filesPaths.length === 1) {
             // Ensure unzip directory permissions
             if (process.platform != "win32") {
