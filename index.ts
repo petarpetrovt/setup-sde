@@ -39,7 +39,7 @@ async function run(): Promise<void> {
 
         const platform: string = getPlatformIdentifier();
         const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-${sdeVersion}-${platform}.tar.bz2`;
-        const outputDirectory: string = path.resolve(`.output`);
+        const outputDirectory: string = `.output`; //path.resolve(`.output`);
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
         const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
@@ -58,7 +58,7 @@ async function run(): Promise<void> {
             await tool.extractTar(tarFilePath, extractedFilesPath, ["x"]);
         }
         else {
-            // TODO: hangs indefinitely
+            // TODO: hangs indefinitely in github action targeting windows-latest
             // await tool.extractTar(tarFilePath, extractedFilesPath);
 
             // Ensure output directory
@@ -80,7 +80,7 @@ async function run(): Promise<void> {
             }
 
             // Export SDE path
-            const sdePath = path.join(extractedFilesPath, filesPaths[0]);
+            const sdePath = path.resolve(path.join(extractedFilesPath, filesPaths[0]));
             core.exportVariable(environmentVariableName, sdePath);
         } else {
             core.setFailed(`Failed to get SDE path.`);
