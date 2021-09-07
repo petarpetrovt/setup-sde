@@ -56,7 +56,12 @@ async function run(): Promise<void> {
         }
 
         // Extract tool
-        await tool.extractTar(tarFilePath, extractedFilesPath);
+        if (process.platform != "win32") {
+            await tool.extractTar(tarFilePath, extractedFilesPath, ["x"]);
+        }
+        else {
+            await tool.extractTar(tarFilePath, extractedFilesPath);
+        }
 
         // Ensure export path
         const filesPaths: string[] = await fs.promises.readdir(extractedFilesPath);
