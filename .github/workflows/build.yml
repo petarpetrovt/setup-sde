@@ -29,14 +29,6 @@ jobs:
      - name: Build
        run: npm run build
 
-     # Set Path workaround for https://github.com/actions/virtual-environments/issues/263
-     - run: |
-        echo "C:\Program Files\Git\mingw64\bin" >> $GITHUB_PATH
-        echo "C:\Program Files\Git\usr\bin" >> $GITHUB_PATH
-        echo "C:\Program Files\Git\bin" >> $GITHUB_PATH
-       if: matrix.os == 'windows-latest'
-       name: "Temp step to Set Path for Windows"
-
      - name: Run
        uses: petarpetrovt/setup-sde@master
        with:

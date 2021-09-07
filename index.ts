@@ -40,10 +40,8 @@ async function run(): Promise<void> {
         const platform: string = getPlatformIdentifier();
         const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-${sdeVersion}-${platform}.tar.bz2`;
         const outputDirectory: string = path.resolve(`.output`);
-        const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`)
-            .replace(new RegExp(`\\${path.sep}`, 'g'), '/');
-        const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`)
-            .replace(new RegExp(`\\${path.sep}`, 'g'), '/');
+        const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
+        const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
         // Download tool
         await tool.downloadTool(url, tarFilePath);
