@@ -70,19 +70,21 @@ async function run(): Promise<void> {
         const filesPath = path.join(outputDir, `sde-temp-files`);
 
         // Ensure output directory
-        fs.mkdir(outputDir, {
+        await fs.promises.mkdir(outputDir, {
             recursive: true
-        }, (err: any) => {
-            if (err) throw err;
         });
 
         // Download archive
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`unexpected response ${response.statusText}`);
+            core.setFailed(`Unexpected response: ${response.statusText}`);
+            return;
         }
+
+        // Parse response
         await streamPipeline(response.body, fs.createWriteStream(tarBzPath))
 
+        // Ensure file permissions
         if (process.platform != "win32") {
             await exec.exec(`sudo chmod`, ['-R', '777', __dirname]);
             await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
@@ -94,19 +96,20 @@ async function run(): Promise<void> {
             unzipedDirectory = path.join(outputDir, `sde-temp-files`);
 
             // Ensure output directory
-            fs.mkdir(unzipedDirectory, {
+            await fs.promises.mkdir(unzipedDirectory, {
                 recursive: true
-            }, (err: any) => {
-                if (err) throw err;
             });
 
+            // unzip via tar command
             await exec.exec(`tar`, ['xvf', tarBzPath, '-C', unzipedDirectory]);
         } else {
+            // unzip via 7zip command
             unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir);
         }
-        const filesPaths: string[] = fs.readdirSync(unzipedDirectory);
+        const filesPaths: string[] = await fs.promises.readdir(unzipedDirectory);
 
         if (filesPaths && filesPaths.length === 1) {
+            // Ensure unzip directory permissions
             if (process.platform != "win32") {
                 await exec.exec(`sudo chmod`, ['-R', '777', outputDir]);
             }
