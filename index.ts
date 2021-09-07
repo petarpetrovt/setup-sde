@@ -6,6 +6,8 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import util from 'util';
 
+const defaultEnvironmentVariableName: string = "SDE_PATH";
+const defaultSdeVersion: string = "8.69.1-2021-07-18";
 const streamPipeline = util.promisify(require('stream').pipeline);
 
 function unzip(tarBzPath: string, tarPath: string, outputDir: string): Promise<string> {
@@ -45,13 +47,13 @@ function getPlatformIdentifier(): string {
 
 async function run(): Promise<void> {
     try {
-        const environmentVariableName = core.getInput("environmentVariableName") || "SDE_PATH"
+        const environmentVariableName = core.getInput("environmentVariableName") || defaultEnvironmentVariableName;
         if (!environmentVariableName || environmentVariableName.length <= 0) {
             core.setFailed("Missing environment variable name input variable.");
             return;
         }
 
-        const sdeVersion = core.getInput("sdeVersion") || process.argv[2];
+        const sdeVersion = core.getInput("sdeVersion") || defaultSdeVersion;
         if (!sdeVersion || sdeVersion.length <= 0) {
             core.setFailed("Missing SDE version input variable.");
             return;
