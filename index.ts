@@ -110,7 +110,7 @@ async function run(): Promise<void> {
         }
     }
     catch (e) {
-        core.setFailed(`An error has occured while setuping SDE binaries: ${e.message}`);
+        core.setFailed(`An error has occured while setuping SDE binaries: ${(<Error>e).message}`);
     }
 }
 
