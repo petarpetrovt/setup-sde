@@ -54,7 +54,7 @@ async function run(): Promise<void> {
         }
 
         const platform: string = getPlatformIdentifier();
-        const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-8.63.0-2021-01-18-${platform}.tar.bz2`;
+        const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-8.69.1-2021-07-18-${platform}.tar.bz2`;
         const outputDir = path.resolve(`.output`);
         const tarBzPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
         const tarPath = path.join(outputDir, `sde-temp-file.tar`);
