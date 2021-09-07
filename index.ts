@@ -41,7 +41,7 @@ async function run(): Promise<void> {
         const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-${sdeVersion}-${platform}.tar.bz2`;
         const outputDirectory: string = path.resolve(`.output`);
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
-        const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
+        let extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
         // Download tool
         await tool.downloadTool(url, tarFilePath);
@@ -58,7 +58,7 @@ async function run(): Promise<void> {
             await tool.extractTar(tarFilePath, extractedFilesPath, ["x"]);
         }
         else {
-            await tool.extractTar(tarFilePath, extractedFilesPath);
+            extractedFilesPath = await tool.extractTar(tarFilePath);
         }
 
         // Ensure export path
