@@ -4,11 +4,9 @@ import * as path from 'path';
 import _7z from '7zip-min';
 import fs from 'fs';
 import fetch from 'node-fetch';
-import util from 'util';
 
 const defaultEnvironmentVariableName: string = "SDE_PATH";
 const defaultSdeVersion: string = "8.69.1-2021-07-18";
-const streamPipeline = util.promisify(require('stream').pipeline);
 
 function unzip(tarBzPath: string, tarPath: string, outputDir: string): Promise<string> {
     const filesPath: string = path.join(outputDir, `sde-temp-files`);
@@ -78,14 +76,16 @@ async function run(): Promise<void> {
         // Download archive
         core.info("Fetching url");
         const response = await fetch(url);
-        if (!response.ok) {
+        if (!response.ok || !response.body) {
             core.setFailed(`Unexpected response: ${response.statusText}`);
             return;
         }
 
         core.info("Parsing response");
-        // Parse response
-        await streamPipeline(response.body, fs.createWriteStream(tarBzPath))
+        const buffer: ArrayBuffer = await response.arrayBuffer();
+
+        core.info("Saving response");
+        await fs.promises.writeFile(tarBzPath, Buffer.from(buffer));
 
         core.info("Ensuring file permissions");
         // Ensure file permissions
@@ -111,9 +111,11 @@ async function run(): Promise<void> {
             // unzip via 7zip command
             unzipedDirectory = await unzip(tarBzPath, tarPath, outputDir);
         }
+
+        core.info("Done1");
         const filesPaths: string[] = await fs.promises.readdir(unzipedDirectory);
 
-        core.info("Done");
+        core.info("Done2");
         if (filesPaths && filesPaths.length === 1) {
             // Ensure unzip directory permissions
             if (process.platform != "win32") {
@@ -128,6 +130,8 @@ async function run(): Promise<void> {
         }
     }
     catch (e: any) {
+        console.log(e);
+
         core.setFailed(`An error has occurred while setuping SDE binaries.`);
         core.error(e);
     }
