@@ -9,6 +9,10 @@ inputs:
     description: Environment variable name for SDE binaries path
     defaultValue: SDE_PATH
     required: true
+  sdeVersion:
+    description: "Intel SDE version (examples: 8.69.1-2021-07-18, 8.63.0-2021-01-18)"
+    defaultValue: 8.69.1-2021-07-18
+    required: true
 runs:
   using: node12
   main: dist/index.js

@@ -45,16 +45,23 @@ function getPlatformIdentifier(): string {
 
 async function run(): Promise<void> {
     try {
-        const environmentVariableName = core.getInput("environmentVariableName") || "SDE_PATH";
-        core.info(`environmentVariableName: ${environmentVariableName}`);
-
+        const environmentVariableName = core.getInput("environmentVariableName") || "SDE_PATH"
         if (!environmentVariableName || environmentVariableName.length <= 0) {
-            core.setFailed("Missing enviroment variable name.");
+            core.setFailed("Missing environment variable name input variable.");
             return;
         }
 
+        const sdeVersion = core.getInput("sdeVersion") || process.argv[2];
+        if (!sdeVersion || sdeVersion.length <= 0) {
+            core.setFailed("Missing SDE version input variable.");
+            return;
+        }
+
+        core.info(`environmentVariableName: ${environmentVariableName}`);
+        core.info(`sdeVersion: ${sdeVersion}`);
+
         const platform: string = getPlatformIdentifier();
-        const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-8.63.0-2021-01-18-${platform}.tar.bz2`;
+        const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-${sdeVersion}-${platform}.tar.bz2`;
         const outputDir = path.resolve(`.output`);
         const tarBzPath = path.join(outputDir, `sde-temp-file.tar.bz2`);
         const tarPath = path.join(outputDir, `sde-temp-file.tar`);
@@ -109,8 +116,9 @@ async function run(): Promise<void> {
             core.setFailed(`Failed to get SDE path.`);
         }
     }
-    catch (e) {
-        core.setFailed(`An error has occured while setuping SDE binaries: ${e.message}`);
+    catch (e: any) {
+        core.setFailed(`An error has occurred while setuping SDE binaries.`);
+        core.error(e);
     }
 }
 
