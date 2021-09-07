@@ -47,18 +47,20 @@ async function run(): Promise<void> {
         await tool.downloadTool(url, tarFilePath);
 
         // Ensure file permissions
+        // TODO: is this needed when working with @actions/tool-cache
         if (process.platform != "win32") {
             await exec.exec(`sudo chmod`, ['-R', '777', __dirname]);
             await exec.exec(`sudo chmod`, ['-R', '777', outputDirectory]);
         }
 
         // Extract tool
-        await tool.extractTar(tarFilePath, extractedFilesPath, ["xv"]);
+        await tool.extractTar(tarFilePath, extractedFilesPath, ["x"]);
 
         // Ensure export path
         const filesPaths: string[] = await fs.promises.readdir(extractedFilesPath);
         if (filesPaths && filesPaths.length === 1) {
             // Ensure unzip directory permissions
+            // TODO: is this needed when working with @actions/tool-cache
             if (process.platform != "win32") {
                 await exec.exec(`sudo chmod`, ['-R', '777', outputDirectory]);
             }
