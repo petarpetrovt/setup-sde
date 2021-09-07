@@ -116,8 +116,9 @@ async function run(): Promise<void> {
             core.setFailed(`Failed to get SDE path.`);
         }
     }
-    catch (e) {
-        core.setFailed(`An error has occurred while setuping SDE binaries: ${(<Error>e).message}`);
+    catch (e: any) {
+        core.setFailed(`An error has occurred while setuping SDE binaries.`);
+        core.error(e);
     }
 }
 
