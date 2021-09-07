@@ -58,7 +58,16 @@ async function run(): Promise<void> {
             await tool.extractTar(tarFilePath, extractedFilesPath, ["x"]);
         }
         else {
-            await tool.extractTar(tarFilePath, extractedFilesPath);
+            // TODO: hangs indefinitely
+            // await tool.extractTar(tarFilePath, extractedFilesPath);
+
+            // Ensure output directory
+            await fs.promises.mkdir(extractedFilesPath, {
+                recursive: true
+            });
+
+            const tarExePath = "C:\\Program Files\\Git\\usr\\bin\\tar.exe";
+            await exec.exec(`"${tarExePath}"`, [`x`, `--force-local`, `-C`, `${extractedFilesPath}`, `-f`, `${tarFilePath}`]);
         }
 
         // Ensure export path
