@@ -4,8 +4,8 @@
     <a href="https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml" alt="Build">
         <img alt="Build" src="https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml/badge.svg" />
     </a>
-    <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ACodeQL" alt="CodeQL">
-        <img alt="CodeQL" src="https://github.com/petarpetrovt/setup-sde/workflows/CodeQL/badge.svg?branch=main" />
+    <a href="https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql-analysis.yml" alt="CodeQL">
+        <img alt="CodeQL" src="https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql-analysis.yml/badge.svg" />
     </a>
     <a href="https://github.com/petarpetrovt/setup-sde/graphs/contributors" alt="Contributors">
         <img alt="Contributors" src="https://img.shields.io/github/contributors/petarpetrovt/setup-sde?label=Contributors">
