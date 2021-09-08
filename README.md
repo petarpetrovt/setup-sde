@@ -12,9 +12,8 @@
     </a>
 </p>
 
-This action sets up a Intel's SDE binaries for use in actions by:
+This action sets up Intel's SDE binaries for use in actions by:
 
-* Accepting Intel's [What If Pre-Release License Agreement](https://software.intel.com/libs/apps/intel/licenseagreement/idzlicenseagreements/idzla-what-if-pre-release-license-agreement.html)
 * Downloading and extracting SDE binaries
 * Providing environment variable
 
