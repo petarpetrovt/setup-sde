@@ -54,21 +54,22 @@ async function run(): Promise<void> {
         }
 
         // Extract tool
-        await tool.extractTar(tarFilePath, extractedFilesPath, ["x"]);
-        // if (process.platform != "win32") {
-        // }
-        // else {
-        //     // TODO: hangs indefinitely in github action targeting windows-latest
-        //     // await tool.extractTar(tarFilePath, extractedFilesPath);
+        if (process.platform != "win32") {
+            await tool.extractTar(tarFilePath, extractedFilesPath, ["x"]);
+        }
+        else {
+            // TODO: hangs indefinitely in github action targeting windows-latest
+            // await tool.extractTar(tarFilePath, extractedFilesPath);
 
-        //     // Ensure output directory
-        //     await fs.promises.mkdir(extractedFilesPath, {
-        //         recursive: true
-        //     });
+            // Ensure output directory
+            await fs.promises.mkdir(extractedFilesPath, {
+                recursive: true
+            });
 
-        //     const tarExePath = "C:\\Program Files\\Git\\usr\\bin\\tar.exe";
-        //     await exec.exec(`"${tarExePath}"`, [`x`, `--force-local`, `-C`, `${extractedFilesPath}`, `-f`, `${tarFilePath}`]);
-        // }
+            // TODO: get path from ENV
+            const tarExePath = "C:\\Program Files\\Git\\usr\\bin\\tar.exe";
+            await exec.exec(`"${tarExePath}"`, [`x`, `--force-local`, `-C`, `${extractedFilesPath}`, `-f`, `${tarFilePath}`]);
+        }
 
         // Ensure export path
         const filesPaths: string[] = await fs.promises.readdir(extractedFilesPath);
