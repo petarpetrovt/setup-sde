@@ -44,8 +44,8 @@ async function test() {
         }
     }
     catch (e) {
-        core.warning(e.message);
         core.setFailed(`An error has occured while asserting environment variable with name '${environmentVariableName}'.`);
+        core.error(e);
     }
 }
 
