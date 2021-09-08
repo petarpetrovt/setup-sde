@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - '**.md'
       - 'codeql-analysis.yml'
@@ -30,7 +30,7 @@ jobs:
        run: npm run build
 
      - name: Run
-       uses: petarpetrovt/setup-sde@master
+       uses: petarpetrovt/setup-sde@main
        with:
          environmentVariableName: TEST_SDE_PATH
 

@@ -2,10 +2,10 @@
 
 <p align="left">
     <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ABuild" alt="Build">
-        <img alt="Build" src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=master" />
+        <img alt="Build" src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=main" />
     </a>
     <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ACodeQL" alt="CodeQL">
-        <img alt="CodeQL" src="https://github.com/petarpetrovt/setup-sde/workflows/CodeQL/badge.svg?branch=master" />
+        <img alt="CodeQL" src="https://github.com/petarpetrovt/setup-sde/workflows/CodeQL/badge.svg?branch=main" />
     </a>
     <a href="https://github.com/petarpetrovt/setup-sde/graphs/contributors" alt="Contributors">
         <img alt="Contributors" src="https://img.shields.io/github/contributors/petarpetrovt/setup-sde?label=Contributors">
