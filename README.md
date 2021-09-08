@@ -1,8 +1,8 @@
 # setup-sde
 
 <p align="left">
-    <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ABuild" alt="Build">
-        <img alt="Build" src="https://github.com/petarpetrovt/setup-sde/workflows/Build/badge.svg?branch=main" />
+    <a href="https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml" alt="Build">
+        <img alt="Build" src="https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml/badge.svg" />
     </a>
     <a href="https://github.com/petarpetrovt/setup-sde/actions?query=workflow%3ACodeQL" alt="CodeQL">
         <img alt="CodeQL" src="https://github.com/petarpetrovt/setup-sde/workflows/CodeQL/badge.svg?branch=main" />
