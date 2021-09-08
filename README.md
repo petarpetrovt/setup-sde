@@ -38,7 +38,7 @@ See [action.yml](action.yml)
 
 * **Petar Petrov**
 
-See also the list of [contributors](https://github.com/SharpPTP/setup-sde/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/petarpetrovt/setup-sde/graphs/contributors) who participated in this project.
 
 ## License
 
