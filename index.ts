@@ -5,7 +5,7 @@ import * as path from 'path';
 import fs from 'fs';
 
 const defaultEnvironmentVariableName: string = "SDE_PATH";
-const defaultSdeVersion: string = "8.69.1-2021-07-18";
+const defaultSdeVersion: string = "9.7.0-2022-05-09";
 
 function getPlatformIdentifier(): string {
     switch (process.platform) {
