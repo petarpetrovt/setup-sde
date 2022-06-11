@@ -5,17 +5,21 @@ on:
       - main
     paths-ignore:
       - '**.md'
+      - 'run.yml'
       - 'codeql-analysis.yml'
   pull_request:
     paths-ignore:
       - '**.md'
+      - 'run.yml'
+      - 'codeql-analysis.yml'
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
+    name: Build and test ${{ matrix.version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+        version: ["9.7.0", "9.0.0", "8.69.1"]
     steps:
      - name: Checkout
        uses: actions/checkout@v2
@@ -30,9 +34,10 @@ jobs:
        run: npm run build
 
      - name: Run
-       uses: petarpetrovt/setup-sde@main
-       with:
-         environmentVariableName: TEST_SDE_PATH
+       run: npm run start
+       env:
+         INPUT_ENVIRONMENTVARIABLENAME: TEST_SDE_PATH
+         INPUT_SDEVERSION: ${{ matrix.version }}
 
      - name: Test
        run: npm run test TEST_SDE_PATH
