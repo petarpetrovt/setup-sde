@@ -28,10 +28,7 @@ jobs:
        uses: actions/setup-node@v1
 
      - name: Run
-        run: node dist/index.js
-       with:
-         sdeVersion: ${{ matrix.version }}
-         environmentVariableName: TEST_SDE_PATH
+       run: node dist/index.js ${{ matrix.version }}
 
      - name: Test
-       run: npm run test TEST_SDE_PATH
+       run: npm run test SDE_PATH
