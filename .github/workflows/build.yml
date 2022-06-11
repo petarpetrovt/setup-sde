@@ -31,3 +31,9 @@ jobs:
 
      - name: Build
        run: npm run build
+
+     - name: Run
+       run: node dist/index.js ${{ matrix.version }}
+
+     - name: Test
+       run: npm run test SDE_PATH

@@ -17,7 +17,6 @@ on:
     paths-ignore:
       - '**.md'
       - 'run.yml'
-      - 'test.yml'
       - 'build.yml'
   pull_request:
     # The branches below must be a subset of the branches above
@@ -25,7 +24,6 @@ on:
     paths-ignore:
       - '**.md'
       - 'run.yml'
-      - 'test.yml'
       - 'build.yml'
   schedule:
     - cron: '19 11 * * 2'
