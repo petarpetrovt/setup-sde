@@ -38,7 +38,8 @@ async function run(): Promise<void> {
         core.info(`sdeVersion: ${sdeVersion}`);
 
         const platform: string = getPlatformIdentifier();
-        const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-${sdeVersion}-${platform}.tar.bz2`;
+        //const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-${sdeVersion}-${platform}.tar.bz2`;
+        const url: string = `https://downloadmirror.intel.com/732268/sde-external-${sdeVersion}-${platform}.tar.bz2`;
         const outputDirectory: string = `.output`; //path.resolve(`.output`);
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
         const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
