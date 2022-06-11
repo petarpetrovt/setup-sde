@@ -30,7 +30,7 @@ jobs:
        run: npm run build
 
      - name: Run
-       uses: petarpetrovt/setup-sde@feature/updates
+       uses: ../../action
        with:
          environmentVariableName: TEST_SDE_PATH
 
