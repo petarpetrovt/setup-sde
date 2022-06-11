@@ -5,10 +5,13 @@ on:
       - main
     paths-ignore:
       - '**.md'
+      - 'run.yml'
       - 'codeql-analysis.yml'
   pull_request:
     paths-ignore:
       - '**.md'
+      - 'run.yml'
+      - 'codeql-analysis.yml'
 jobs:
   build:
     name: Build on ${{ matrix.os }}
@@ -30,7 +33,7 @@ jobs:
        run: npm run build
 
      - name: Run
-       uses: petarpetrovt/setup-sde@$GITHUB_REF_NAME
+       uses: petarpetrovt/setup-sde@main
        with:
          environmentVariableName: TEST_SDE_PATH
 
