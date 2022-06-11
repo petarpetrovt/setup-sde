@@ -30,7 +30,7 @@ jobs:
        run: npm run build
 
      - name: Run
-       uses: ./action.yml
+       uses: petarpetrovt/setup-sde@$GITHUB_REF_NAME
        with:
          environmentVariableName: TEST_SDE_PATH
 
