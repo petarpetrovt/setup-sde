@@ -30,7 +30,7 @@ jobs:
        run: npm run build
 
      - name: Run
-       uses: ./../../action
+       uses: ./action
        with:
          environmentVariableName: TEST_SDE_PATH
 
