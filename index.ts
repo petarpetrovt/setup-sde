@@ -5,7 +5,7 @@ import * as path from 'path';
 import fs from 'fs';
 
 const defaultEnvironmentVariableName: string = "SDE_PATH";
-const defaultSdeVersion: string = "9.7.0-2022-05-09";
+const defaultSdeVersion: string = "9.7.0";
 
 function getPlatformIdentifier(): string {
     switch (process.platform) {
@@ -17,6 +17,20 @@ function getPlatformIdentifier(): string {
             return `lin`;
         default:
             throw new Error(`Platform '${process.platform}' is not supported in this context.`);
+    }
+}
+
+function getVersionDownloadUrl(version: string): string {
+    const platform: string = getPlatformIdentifier();
+    switch (version) {
+        case "9.7.0":
+            return `https://downloadmirror.intel.com/732268/sde-external-9.7.0-2022-05-09-${platform}.tar.xz`;
+        case "9.0.0":
+            return `https://downloadmirror.intel.com/684899/sde-external-9.0.0-2021-11-07-${platform}.tar.xz`;
+        case "8.69.1":
+            return `https://downloadmirror.intel.com/684910/sde-external-8.69.1-2021-07-18-${platform}.tar.bz2`;
+        default:
+            throw new Error(`SDE version '${version}' is not supported in this context.`);
     }
 }
 
@@ -37,10 +51,8 @@ async function run(): Promise<void> {
         core.info(`environmentVariableName: ${environmentVariableName}`);
         core.info(`sdeVersion: ${sdeVersion}`);
 
-        const platform: string = getPlatformIdentifier();
-        //const url: string = `https://software.intel.com/content/dam/develop/external/us/en/documents/downloads/sde-external-${sdeVersion}-${platform}.tar.bz2`;
-        const url: string = `https://downloadmirror.intel.com/732268/sde-external-${sdeVersion}-${platform}.tar.bz2`;
-        const outputDirectory: string = `.output`; //path.resolve(`.output`);
+        const url: string = getVersionDownloadUrl(sdeVersion);
+        const outputDirectory: string = `.output`;
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
         const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
