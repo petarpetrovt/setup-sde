@@ -36,8 +36,8 @@ jobs:
      - name: Run
        run: npm run start
        env:
-          environmentVariableName: TEST_SDE_PATH
-          sdeVersion: ${{ matrix.version }}
+         INPUT_ENVIRONMENTVARIABLENAME: TEST_SDE_PATH
+         INPUT_SDEVERSION: ${{ matrix.version }}
 
      - name: Test
        run: npm run test TEST_SDE_PATH
