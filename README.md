@@ -1,4 +1,4 @@
-# setup-sde
+ # setup-sde
 
 <p align="left">
     <a href="https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml" alt="Build">
@@ -23,16 +23,18 @@ See [action.yml](action.yml)
 
 ```YML
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v2.1
+  uses: petarpetrovt/setup-sde@v2.2
 ```
 
 ```YML
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v2.1
+  uses: petarpetrovt/setup-sde@v2.2
   with:
     environmentVariableName: MY_CUSTOM_NAME # default value is `SDE_PATH`
-    sdeVersion: 9.14.0 # possible values: 9.14.0 (default), 9.7.0, 9.0.0, 8.69.1
+    sdeVersion: 9.24.0 # possible values: 9.24.0 (default), 9.14.0, 9.7.0, 9.0.0, 8.69.1
 ```
+
+* Versions `>= 9.14.0` work only for windows and linux.
 
 ## Authors
 
