@@ -5,12 +5,10 @@ on:
       - main
     paths-ignore:
       - '**.md'
-      - 'run.yml'
       - 'codeql-analysis.yml'
   pull_request:
     paths-ignore:
       - '**.md'
-      - 'run.yml'
       - 'codeql-analysis.yml'
 jobs:
   build:
