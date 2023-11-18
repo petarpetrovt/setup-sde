@@ -24,7 +24,7 @@ function getVersionDownloadUrl(version: string): string {
     const platform: string = getPlatformIdentifier();
     switch (version) {
         case "9.27.0":
-            return `https://downloadmirror.intel.com/784319/sde-external-9.27.0-2023-09-13-${platform}.tar.xz`;
+            return `https://downloadmirror.intel.com/788820/sde-external-9.27.0-2023-09-13-${platform}.tar.xz`;
         case "9.24.0":
             return `https://downloadmirror.intel.com/784319/sde-external-9.24.0-2023-07-13-${platform}.tar.xz`;
         case "9.14.0":
