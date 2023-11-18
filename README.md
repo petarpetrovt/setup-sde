@@ -31,7 +31,7 @@ See [action.yml](action.yml)
   uses: petarpetrovt/setup-sde@v2.2
   with:
     environmentVariableName: MY_CUSTOM_NAME # default value is `SDE_PATH`
-    sdeVersion: 9.24.0 # possible values: 9.24.0 (default), 9.14.0, 9.7.0, 9.0.0, 8.69.1
+    sdeVersion: 9.27.0 # possible values: 9.27.0 (default), 9.24.0, 9.14.0, 9.7.0, 9.0.0, 8.69.1
 ```
 
 * Versions `>= 9.14.0` work only for windows and linux.
