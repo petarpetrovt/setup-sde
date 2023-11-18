@@ -1,6 +1,6 @@
  # setup-sde
 
-[![Build](https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml/badge.svg)](https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml) [![CodeQL](https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql-analysis.yml) [![Contributors](https://img.shields.io/github/contributors/petarpetrovt/setup-sde?label=Contributors)](https://github.com/petarpetrovt/setup-sde/graphs/contributors)
+[![Build](https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml/badge.svg)](https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml) [![CodeQL](https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql.yml/badge.svg)](https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql.yml) [![Contributors](https://img.shields.io/github/contributors/petarpetrovt/setup-sde?label=Contributors)](https://github.com/petarpetrovt/setup-sde/graphs/contributors)
 
 This action sets up Intel's SDE binaries for use in actions by:
 
