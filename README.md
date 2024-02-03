@@ -16,6 +16,8 @@ See [action.yml](action.yml)
   uses: petarpetrovt/setup-sde@v2.3
 ```
 
+> Utilize the latest version, as Intel no longer offers mirror links for Intel SDE versions below `9.24.0`.
+
 ```YML
 - name: Setup SDE binaries
   uses: petarpetrovt/setup-sde@v2.3
