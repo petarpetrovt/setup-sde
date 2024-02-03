@@ -5,7 +5,7 @@ import * as path from 'path';
 import fs from 'fs';
 
 const defaultEnvironmentVariableName: string = "SDE_PATH";
-const defaultSdeVersion: string = "9.27.0";
+const defaultSdeVersion: string = "9.33.0";
 
 function getPlatformIdentifier(): string {
     switch (process.platform) {
@@ -22,19 +22,23 @@ function getPlatformIdentifier(): string {
 
 function getVersionDownloadUrl(version: string): string {
     const platform: string = getPlatformIdentifier();
+    const baseUrl: string = "https://downloadmirror.intel.com";
+
     switch (version) {
+        case "9.33.0":
+            return `${baseUrl}/813591/sde-external-9.33.0-2024-01-07-${platform}.tar.xz`;
         case "9.27.0":
-            return `https://downloadmirror.intel.com/788820/sde-external-9.27.0-2023-09-13-${platform}.tar.xz`;
+            return `${baseUrl}/788820/sde-external-9.27.0-2023-09-13-${platform}.tar.xz`;
         case "9.24.0":
-            return `https://downloadmirror.intel.com/784319/sde-external-9.24.0-2023-07-13-${platform}.tar.xz`;
+            return `${baseUrl}/784319/sde-external-9.24.0-2023-07-13-${platform}.tar.xz`;
         case "9.14.0":
-            return `https://downloadmirror.intel.com/751535/sde-external-9.14.0-2022-10-25-${platform}.tar.xz`;
+            return `${baseUrl}/751535/sde-external-9.14.0-2022-10-25-${platform}.tar.xz`;
         case "9.7.0":
-            return `https://downloadmirror.intel.com/732268/sde-external-9.7.0-2022-05-09-${platform}.tar.xz`;
+            return `${baseUrl}/732268/sde-external-9.7.0-2022-05-09-${platform}.tar.xz`;
         case "9.0.0":
-            return `https://downloadmirror.intel.com/684899/sde-external-9.0.0-2021-11-07-${platform}.tar.xz`;
+            return `${baseUrl}/684899/sde-external-9.0.0-2021-11-07-${platform}.tar.xz`;
         case "8.69.1":
-            return `https://downloadmirror.intel.com/684910/sde-external-8.69.1-2021-07-18-${platform}.tar.bz2`;
+            return `${baseUrl}/684910/sde-external-8.69.1-2021-07-18-${platform}.tar.bz2`;
         default:
             throw new Error(`SDE version '${version}' is not supported in this context.`);
     }
