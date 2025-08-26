@@ -5,7 +5,7 @@ import * as path from 'path';
 import fs from 'fs';
 
 const defaultEnvironmentVariableName: string = "SDE_PATH";
-const defaultSdeVersion: string = "9.33.0";
+const defaultSdeVersion: string = "9.58.0";
 
 function getPlatformIdentifier(): string {
     switch (process.platform) {
@@ -25,6 +25,8 @@ function getVersionDownloadUrl(version: string): string {
     const baseUrl: string = "https://downloadmirror.intel.com";
 
     switch (version) {
+        case "9.58.0":
+            return `${baseUrl}/859732/sde-external-9.58.0-2025-06-16-${platform}.tar.xz`;
         case "9.33.0":
             return `${baseUrl}/813591/sde-external-9.33.0-2024-01-07-${platform}.tar.xz`;
         case "9.27.0":
