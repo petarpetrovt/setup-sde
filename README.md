@@ -13,7 +13,7 @@ See [action.yml](action.yml)
 
 ```YML
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v2.4
+  uses: petarpetrovt/setup-sde@v3.0
 ```
 
 > Use the latest version, since Intel regularly removes older mirror links.
