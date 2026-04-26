@@ -10,8 +10,8 @@ inputs:
     defaultValue: SDE_PATH
     required: true
   sdeVersion:
-    description: "Intel SDE version (examples: 9.58.0, 9.33.0)"
-    defaultValue: 9.58.0
+    description: "Intel SDE version (examples: 10.8.0, 9.58.0)"
+    defaultValue: 10.8.0
     required: true
 runs:
   using: node24
