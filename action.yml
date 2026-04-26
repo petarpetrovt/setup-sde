@@ -14,5 +14,5 @@ inputs:
     defaultValue: 9.58.0
     required: true
 runs:
-  using: node20
+  using: node24
   main: dist/index.js
