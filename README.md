@@ -1,11 +1,14 @@
- # setup-sde
+# setup-sde
 
 [![Build](https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml/badge.svg)](https://github.com/petarpetrovt/setup-sde/actions/workflows/build.yml) [![CodeQL](https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql.yml/badge.svg)](https://github.com/petarpetrovt/setup-sde/actions/workflows/codeql.yml) [![Contributors](https://img.shields.io/github/contributors/petarpetrovt/setup-sde?label=Contributors)](https://github.com/petarpetrovt/setup-sde/graphs/contributors)
 
+> [!IMPORTANT]
+> By using this action, you agree to the terms of Intel's SDE license, which is included in the extracted binary.
+
 This action sets up Intel's SDE binaries for use in actions by:
 
-* Downloading and extracting SDE binaries
-* Providing environment variable
+- Downloading and extracting SDE binaries
+- Providing environment variable
 
 ## Usage
 
@@ -30,7 +33,7 @@ See [action.yml](action.yml)
 
 ## Authors
 
-* **Petar Petrov**
+- **Petar Petrov**
 
 See also the list of [contributors](https://github.com/petarpetrovt/setup-sde/graphs/contributors) who participated in this project.
 
