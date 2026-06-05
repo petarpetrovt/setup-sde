@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A GitHub Action that downloads and extracts Intel SDE (Software Development Emulator) binaries, then exports the path as an environment variable. It targets `windows-latest` and `ubuntu-latest` runners; macOS is mapped in code but not tested in CI.
+A GitHub Action that downloads and extracts Intel SDE (Software Development Emulator) binaries from this repo's Git LFS, then exports the path as an environment variable. It targets `windows-latest` and `ubuntu-latest` runners; macOS is not tested in CI.
 
 ## Commands
 
@@ -17,7 +17,7 @@ npm run test <VAR>   # verify VAR env var points to a valid SDE directory with a
 
 The build uses `@vercel/ncc` to produce a single bundled `dist/index.js`. **Always run `npm run build` before committing** — `action.yml` points to `dist/index.js`, not the TypeScript source.
 
-To test the full flow locally, set the action inputs as environment variables before running:
+To test the full flow locally:
 
 ```bash
 INPUT_ENVIRONMENTVARIABLENAME=SDE_PATH INPUT_SDEVERSION=10.8.0 npm run start
@@ -28,17 +28,20 @@ npm run test SDE_PATH
 
 All logic lives in a single file: [index.ts](index.ts).
 
-- `getPlatformIdentifier()` maps Node's `process.platform` to Intel's archive suffix (`win`, `mac`, `lin`).
-- `getVersionDownloadUrl(version)` returns the full Intel mirror URL for a given version string. Adding a new SDE version means adding a case here.
-- `run()` orchestrates: download → chmod (Linux only) → extract → export env var.
+- `getPlatformIdentifier()` maps `process.platform` to Intel's archive suffix (`win` or `lin`).
+- `getLfsBinaryFilename(version)` returns the filename for a given version+platform combination, which is used to build the `media.githubusercontent.com` LFS download URL.
+- `run()` orchestrates: resolve LFS URL → download (with optional `GITHUB_TOKEN` Bearer auth) → chmod (Linux only) → extract → export env var.
+
+**Binary storage**: SDE tarballs are committed to `binaries/` via Git LFS. The download URL is constructed from `GITHUB_ACTION_REPOSITORY` and `GITHUB_ACTION_REF` at runtime, pointing to `media.githubusercontent.com`. No `GITHUB_TOKEN` is required for public repos — the token is used opportunistically to avoid rate limits if present.
 
 **Windows extraction workaround**: `@actions/tool-cache`'s `extractTar` hangs indefinitely on `windows-latest`, so Windows uses Git's bundled `tar.exe` at `C:\Program Files\Git\usr\bin\tar.exe` with `--force-local`. This is a known limitation documented with TODO comments.
 
-**Tester** ([tester.js](tester.js)): a plain JS script (not TypeScript) that validates the exported env var points to an existing directory and that `sde -version` executes successfully. Receives the variable name as a CLI argument (`npm run test <VAR_NAME>`).
+**Tester** ([tester.js](tester.js)): a plain JS script that validates the exported env var points to an existing directory and that `sde -version` executes successfully.
 
 ## Adding a new SDE version
 
-1. Add a case in `getVersionDownloadUrl()` in [index.ts](index.ts) with the Intel mirror URL and version string.
-2. Add the version to the build matrix in [.github/workflows/build.yml](.github/workflows/build.yml).
-3. Update the default version constants and `action.yml` description if it becomes the new default.
-4. Run `npm run build` to rebuild `dist/index.js`.
+1. Download the Linux and Windows tarballs from Intel and commit them to `binaries/` via Git LFS.
+2. Add a case in `getLfsBinaryFilename()` in [index.ts](index.ts) matching the filename pattern.
+3. Add the version to the `matrix.version` array in [.github/workflows/build.yml](.github/workflows/build.yml).
+4. Update the `defaultSdeVersion` constant and `action.yml` description if it becomes the new default.
+5. Run `npm run build` to rebuild `dist/index.js`.
