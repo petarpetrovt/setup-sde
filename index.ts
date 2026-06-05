@@ -11,8 +11,6 @@ function getPlatformIdentifier(): string {
     switch (process.platform) {
         case "win32":
             return `win`;
-        case "darwin":
-            return `mac`;
         case "linux":
             return `lin`;
         default:
@@ -20,17 +18,14 @@ function getPlatformIdentifier(): string {
     }
 }
 
-function getVersionDownloadUrl(version: string): string {
+function getLfsBinaryFilename(version: string): string {
     const platform: string = getPlatformIdentifier();
-    const baseUrl: string = "https://downloadmirror.intel.com";
 
     switch (version) {
         case "10.8.0":
-            return `${baseUrl}/915934/sde-external-10.8.0-2026-03-15-${platform}.tar.xz`;
+            return `sde-external-10.8.0-2026-03-15-${platform}.tar.xz`;
         case "9.58.0":
-            return `${baseUrl}/859732/sde-external-9.58.0-2025-06-16-${platform}.tar.xz`;
-        case "9.33.0":
-            return `${baseUrl}/813591/sde-external-9.33.0-2024-01-07-${platform}.tar.xz`;
+            return `sde-external-9.58.0-2025-06-16-${platform}.tar.xz`;
         default:
             throw new Error(`SDE version '${version}' is not supported in this context.`);
     }
@@ -53,13 +48,22 @@ async function run(): Promise<void> {
         core.info(`environmentVariableName: ${environmentVariableName}`);
         core.info(`sdeVersion: ${sdeVersion}`);
 
-        const url: string = getVersionDownloadUrl(sdeVersion);
+        const actionRepo = process.env.GITHUB_ACTION_REPOSITORY;
+        const actionRef = process.env.GITHUB_ACTION_REF;
+        if (!actionRepo || !actionRef) {
+            core.setFailed("GITHUB_ACTION_REPOSITORY and GITHUB_ACTION_REF must be set.");
+            return;
+        }
+
+        const filename: string = getLfsBinaryFilename(sdeVersion);
+        const url: string = `https://media.githubusercontent.com/media/${actionRepo}/${actionRef}/binaries/${filename}`;
+        const auth: string | undefined = process.env.GITHUB_TOKEN ? `Bearer ${process.env.GITHUB_TOKEN}` : undefined;
         const outputDirectory: string = `.output`;
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
         const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
         // Download tool
-        await tool.downloadTool(url, tarFilePath);
+        await tool.downloadTool(url, tarFilePath, auth);
 
         // Ensure file permissions
         // TODO: is this needed when working with @actions/tool-cache
