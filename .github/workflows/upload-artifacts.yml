@@ -1,0 +1,32 @@
+name: Upload LFS Binaries as Artifacts
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  push:
+    branches:
+      - main
+    paths:
+      - 'binaries/**'
+  workflow_dispatch:
+
+jobs:
+  upload:
+    name: Upload LFS binaries
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Checkout (with LFS)
+        uses: actions/checkout@v6.0.2
+        with:
+          lfs: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lfs-binaries
+          path: binaries/
+          overwrite: true
+          retention-days: 90
