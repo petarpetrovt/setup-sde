@@ -13,14 +13,14 @@ See [action.yml](action.yml)
 
 ```YML
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v4.0
+  uses: petarpetrovt/setup-sde@v5.0
 ```
 
 > Use the latest version, since Intel regularly removes older mirror links.
 
 ```YML
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v4.0
+  uses: petarpetrovt/setup-sde@v5.0
   with:
     environmentVariableName: MY_CUSTOM_NAME # default value is `SDE_PATH`
     sdeVersion: 10.8.0 # possible values: 10.8.0 (default), 9.58.0
