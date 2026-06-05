@@ -48,15 +48,8 @@ async function run(): Promise<void> {
         core.info(`environmentVariableName: ${environmentVariableName}`);
         core.info(`sdeVersion: ${sdeVersion}`);
 
-        const actionRepo = process.env.GITHUB_ACTION_REPOSITORY;
-        const actionRef = process.env.GITHUB_ACTION_REF;
-        if (!actionRepo || !actionRef) {
-            core.setFailed("GITHUB_ACTION_REPOSITORY and GITHUB_ACTION_REF must be set.");
-            return;
-        }
-
         const filename: string = getLfsBinaryFilename(sdeVersion);
-        const url: string = `https://media.githubusercontent.com/media/${actionRepo}/${actionRef}/binaries/${filename}`;
+        const url: string = `https://media.githubusercontent.com/media/ppetrovt/setup-sde/main/binaries/${filename}`;
         const auth: string | undefined = process.env.GITHUB_TOKEN ? `Bearer ${process.env.GITHUB_TOKEN}` : undefined;
         const outputDirectory: string = `.output`;
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
