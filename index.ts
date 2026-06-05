@@ -49,7 +49,7 @@ async function run(): Promise<void> {
         core.info(`sdeVersion: ${sdeVersion}`);
 
         const filename: string = getLfsBinaryFilename(sdeVersion);
-        const url: string = `https://github.com/ppetrovt/setup-sde/releases/download/binaries/${filename}`;
+        const url: string = `https://github.com/petarpetrovt/setup-sde/releases/download/binaries/${filename}`;
         const auth: string | undefined = process.env.GITHUB_TOKEN ? `Bearer ${process.env.GITHUB_TOKEN}` : undefined;
         const outputDirectory: string = `.output`;
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
