@@ -49,14 +49,21 @@ async function run(): Promise<void> {
         core.info(`sdeVersion: ${sdeVersion}`);
 
         const filename: string = getLfsBinaryFilename(sdeVersion);
-        const url: string = `https://media.githubusercontent.com/media/ppetrovt/setup-sde/main/binaries/${filename}`;
-        const auth: string | undefined = process.env.GITHUB_TOKEN ? `Bearer ${process.env.GITHUB_TOKEN}` : undefined;
         const outputDirectory: string = `.output`;
-        const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
+        const cloneDir: string = path.join(outputDirectory, `sde-clone`);
+        const binaryPath: string = `binaries/${filename}`;
+        const tarFilePath: string = path.join(cloneDir, binaryPath);
         const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
-        // Download tool
-        await tool.downloadTool(url, tarFilePath, auth);
+        const actionRef: string = process.env.GITHUB_ACTION_REF || 'main';
+        const repoUrl: string = `https://github.com/petarpetrovt/setup-sde.git`;
+
+        // Sparse clone + LFS pull for only the needed binary
+        await fs.promises.mkdir(outputDirectory, { recursive: true });
+        await exec.exec('git', ['clone', '--no-checkout', '--sparse', '--depth=1', '--branch', actionRef, repoUrl, cloneDir]);
+        await exec.exec('git', ['-C', cloneDir, 'sparse-checkout', 'set', binaryPath]);
+        await exec.exec('git', ['-C', cloneDir, 'checkout']);
+        await exec.exec('git', ['-C', cloneDir, 'lfs', 'pull', '--include', binaryPath, '--exclude', '']);
 
         // Ensure file permissions
         // TODO: is this needed when working with @actions/tool-cache
