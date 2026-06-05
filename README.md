@@ -28,6 +28,10 @@ See [action.yml](action.yml)
 
 > Works only for windows and linux.
 
+## Intel SDE License
+
+By using this action, you agree to the terms of Intel's SDE license, which is included in the extracted binary.
+
 ## Authors
 
 * **Petar Petrov**
