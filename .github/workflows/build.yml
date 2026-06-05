@@ -41,3 +41,31 @@ jobs:
 
      - name: Test
        run: npm run test TEST_SDE_PATH
+
+  upload-binaries:
+    name: Upload LFS binaries
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout (with LFS)
+        uses: actions/checkout@v6.0.2
+        with:
+          lfs: true
+
+      - name: Create release if missing
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view binaries &>/dev/null; then
+            gh release create binaries \
+              --title "LFS Binaries" \
+              --notes "SDE binary archives mirrored from Git LFS for stable distribution." \
+              --prerelease
+          fi
+
+      - name: Upload binaries
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload binaries binaries/* --clobber
