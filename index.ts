@@ -1,6 +1,7 @@
 import * as exec from '@actions/exec';
 import * as core from '@actions/core';
 import * as tool from '@actions/tool-cache';
+import * as cache from '@actions/cache';
 import * as path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
@@ -52,6 +53,47 @@ async function computeSha256(filePath: string): Promise<string> {
     return crypto.createHash('sha256').update(data).digest('hex').toUpperCase();
 }
 
+async function downloadTarballCached(
+    url: string,
+    version: string,
+    tarFilePath: string,
+    expectedSha256: string,
+    auth: string | undefined,
+): Promise<void> {
+    const cacheKey = `sde-${version}-${getPlatformIdentifier()}`;
+
+    let restored = false;
+    try {
+        if (await cache.restoreCache([tarFilePath], cacheKey)) {
+            core.info(`Cache hit for key '${cacheKey}'.`);
+            restored = true;
+        }
+    } catch (e: any) {
+        core.warning("Failed to restore from cache.");
+        core.warning(e);
+    }
+
+    if (!restored) {
+        await tool.downloadTool(url, tarFilePath, auth);
+    }
+
+    // Verify integrity (also guards against a poisoned/corrupt cache entry)
+    const actualSha256 = await computeSha256(tarFilePath);
+    if (actualSha256 !== expectedSha256) {
+        throw new Error(`SHA256 mismatch for SDE ${version}: expected ${expectedSha256}, got ${actualSha256}`);
+    }
+
+    if (!restored) {
+        try {
+            await cache.saveCache([tarFilePath], cacheKey);
+            core.info(`Saved SDE tarball to cache with key '${cacheKey}'.`);
+        } catch (e: any) {
+            core.warning("Failed to save to cache.");
+            core.warning(e);
+        }
+    }
+}
+
 async function run(): Promise<void> {
     try {
         const environmentVariableName = core.getInput("environmentVariableName") || defaultEnvironmentVariableName;
@@ -72,19 +114,14 @@ async function run(): Promise<void> {
         const { filename, sha256: expectedSha256 } = getBinaryPair(sdeVersion);
         const url: string = `https://github.com/petarpetrovt/setup-sde/releases/download/binaries/${filename}`;
         const auth: string | undefined = process.env.GITHUB_TOKEN ? `Bearer ${process.env.GITHUB_TOKEN}` : undefined;
-        const outputDirectory: string = `.output`;
+        const outputDirectory: string = path.resolve(`.output`);
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
         const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
-        // Download tool
-        await tool.downloadTool(url, tarFilePath, auth);
+        await fs.promises.mkdir(outputDirectory, { recursive: true });
 
-        // Verify integrity
-        const actualSha256 = await computeSha256(tarFilePath);
-        if (actualSha256 !== expectedSha256) {
-            core.setFailed(`SHA256 mismatch for ${filename}: expected ${expectedSha256}, got ${actualSha256}`);
-            return;
-        }
+        // Download (or restore from cache) and verify integrity
+        await downloadTarballCached(url, sdeVersion, tarFilePath, expectedSha256, auth);
 
         // Ensure file permissions
         // TODO: is this needed when working with @actions/tool-cache
