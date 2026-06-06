@@ -114,7 +114,7 @@ async function run(): Promise<void> {
         const { filename, sha256: expectedSha256 } = getBinaryPair(sdeVersion);
         const url: string = `https://github.com/petarpetrovt/setup-sde/releases/download/binaries/${filename}`;
         const auth: string | undefined = process.env.GITHUB_TOKEN ? `Bearer ${process.env.GITHUB_TOKEN}` : undefined;
-        const outputDirectory: string = path.resolve(`.output`);
+        const outputDirectory: string = `.output`;
         const tarFilePath: string = path.join(outputDirectory, `sde-temp-file.tar.bz2`);
         const extractedFilesPath: string = path.join(outputDirectory, `sde-temp-files`);
 
