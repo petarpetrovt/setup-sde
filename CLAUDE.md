@@ -49,3 +49,7 @@ All logic lives in a single file: [index.ts](index.ts).
 3. Add the version to the `matrix.version` array in [.github/workflows/build.yml](.github/workflows/build.yml).
 4. Update the `defaultSdeVersion` constant and `action.yml`'s `sdeVersion` default/description if it becomes the new default.
 5. Run `npm run build` to rebuild `dist/index.js`.
+
+## Security policy
+
+[SECURITY.md](SECURITY.md)'s supported-versions table must always track the current major version from `package.json`'s `version` field (e.g. `version: "6.0.0"` → `6.x` supported, `< 6` unsupported). Update it whenever the major version bumps.
