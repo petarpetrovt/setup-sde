@@ -16,12 +16,12 @@ See [action.yml](action.yml)
 
 ```YML
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v5.0
+  uses: petarpetrovt/setup-sde@v5.1
 ```
 
 ```YML
 - name: Setup SDE binaries
-  uses: petarpetrovt/setup-sde@v5.0
+  uses: petarpetrovt/setup-sde@v5.1
   with:
     environmentVariableName: MY_CUSTOM_NAME # default value is `SDE_PATH`
     sdeVersion: 10.8.0 # possible values: 10.8.0 (default), 9.58.0
