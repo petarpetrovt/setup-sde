@@ -29,10 +29,14 @@ npm run test SDE_PATH
 All logic lives in a single file: [index.ts](index.ts).
 
 - `getPlatformIdentifier()` maps `process.platform` to Intel's archive suffix (`win` or `lin`).
-- `getLfsBinaryFilename(version)` returns the filename for a given version+platform combination, which is used to build the `media.githubusercontent.com` LFS download URL.
-- `run()` orchestrates: resolve LFS URL → download (with optional `GITHUB_TOKEN` Bearer auth) → chmod (Linux only) → extract → export env var.
+- `releases` is a map of version → `{ date, sha256: { lin, win } }`, used to look up the tarball filename and its expected checksum.
+- `getBinaryPair(version)` resolves the `releases` entry for the current platform into `{ filename, sha256 }`.
+- `downloadTarballCached(...)` restores the tarball from the Actions cache if present, otherwise downloads it, then verifies its SHA256 against `releases` (this also guards against a poisoned/corrupt cache entry) and saves it to cache.
+- `run()` orchestrates: resolve binary filename/checksum → download (cached, with optional `GITHUB_TOKEN` Bearer auth) → verify SHA256 → chmod (Linux only) → extract → export env var.
 
-**Binary storage**: SDE tarballs are committed to `binaries/` via Git LFS. The download URL is constructed from `GITHUB_ACTION_REPOSITORY` and `GITHUB_ACTION_REF` at runtime, pointing to `media.githubusercontent.com`. No `GITHUB_TOKEN` is required for public repos — the token is used opportunistically to avoid rate limits if present.
+**Binary storage**: SDE tarballs are committed to `binaries/` via Git LFS. On every push to `main`, the `upload-binaries` job in [.github/workflows/build.yml](.github/workflows/build.yml) mirrors `binaries/*` to a GitHub Release tagged `binaries` (created if missing). At runtime, `index.ts` downloads from `https://github.com/petarpetrovt/setup-sde/releases/download/binaries/<filename>` — not the Git LFS media URL. No `GITHUB_TOKEN` is required for public repos — the token is used opportunistically to avoid rate limits if present.
+
+**Integrity verification**: every download (cached or fresh) has its SHA256 checked against the hash recorded in `releases`; a mismatch fails the run.
 
 **Windows extraction workaround**: `@actions/tool-cache`'s `extractTar` hangs indefinitely on `windows-latest`, so Windows uses Git's bundled `tar.exe` at `C:\Program Files\Git\usr\bin\tar.exe` with `--force-local`. This is a known limitation documented with TODO comments.
 
@@ -41,7 +45,7 @@ All logic lives in a single file: [index.ts](index.ts).
 ## Adding a new SDE version
 
 1. Download the Linux and Windows tarballs from Intel and commit them to `binaries/` via Git LFS.
-2. Add a case in `getLfsBinaryFilename()` in [index.ts](index.ts) matching the filename pattern.
+2. Add an entry to the `releases` map in [index.ts](index.ts) with the release `date` and the SHA256 checksum for both the `lin` and `win` tarballs.
 3. Add the version to the `matrix.version` array in [.github/workflows/build.yml](.github/workflows/build.yml).
-4. Update the `defaultSdeVersion` constant and `action.yml` description if it becomes the new default.
+4. Update the `defaultSdeVersion` constant and `action.yml`'s `sdeVersion` default/description if it becomes the new default.
 5. Run `npm run build` to rebuild `dist/index.js`.
