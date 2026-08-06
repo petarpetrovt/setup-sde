@@ -40,7 +40,7 @@ All logic lives in a single file: [index.ts](index.ts).
 
 **Windows extraction workaround**: `@actions/tool-cache`'s `extractTar` hangs indefinitely on `windows-latest`, so Windows uses Git's bundled `tar.exe` at `C:\Program Files\Git\usr\bin\tar.exe` with `--force-local`. This is a known limitation documented with TODO comments.
 
-**Tester** ([tester.js](tester.js)): a plain JS script that validates the exported env var points to an existing directory and that `sde -version` executes successfully.
+**Tester** ([tester.mjs](tester.mjs)): a plain ESM script that validates the exported env var points to an existing directory and that `sde -version` executes successfully. It's `.mjs` (not `.js`) because `@actions/core`/`@actions/exec` v3+ are ESM-only.
 
 ## Adding a new SDE version
 

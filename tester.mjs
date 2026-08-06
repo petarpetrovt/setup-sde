@@ -1,10 +1,8 @@
-const core = require('@actions/core');
-const exec = require('@actions/exec');
-const { promisify } = require('util');
-const path = require('path');
-const fs = require('fs');
-const readdir = promisify(fs.readdir);
-const stat = promisify(fs.stat);
+import * as core from '@actions/core';
+import * as exec from '@actions/exec';
+import path from 'path';
+import fs from 'fs';
+import { readdir, stat } from 'fs/promises';
 
 async function test() {
     try {
