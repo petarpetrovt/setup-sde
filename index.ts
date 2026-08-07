@@ -7,7 +7,30 @@ import fs from 'fs';
 import crypto from 'crypto';
 
 const defaultEnvironmentVariableName: string = "SDE_PATH";
-const defaultSdeVersion: string = "10.8.0";
+const defaultSdeVersion: string = "10.13.1";
+const releases: Record<string, { date: string; sha256: Record<string, string>; }> = {
+    "10.13.1": {
+        date: "2026-07-28",
+        sha256: {
+            lin: "94E97D623FEC54385686E1E7BA65EBC9941748C05EE451423948334892BF2B50",
+            win: "74E626EDE09B0BAA5011FC9E51B58627EA92C3FC0BAE5FD7DB34B490F335F651",
+        },
+    },
+    "10.8.0": {
+        date: "2026-03-15",
+        sha256: {
+            lin: "50B320CD226ACEF7A491F5B321FC1BE3C3C7984F9E27A456E64894B5B0979DD3",
+            win: "176F87C80EB42BB91B73E1428F4A0FD067DF322F901F9B4359B20B86B92C2BAE",
+        },
+    },
+    "9.58.0": {
+        date: "2025-06-16",
+        sha256: {
+            lin: "F849ACECAD4C9B108259C643B2688FD65C35723CD23368ABE5DD64B917CC18C0",
+            win: "EBB8B3B63FCB0B6C1F9721118BA4883703D2AED9E0DB2DEFED4E44FBA78D9CA9",
+        },
+    },
+};
 
 function getPlatformIdentifier(): string {
     switch (process.platform) {
@@ -20,32 +43,18 @@ function getPlatformIdentifier(): string {
     }
 }
 
-interface BinaryPair {
-    filename: string;
-    sha256: string;
-}
-
-function getBinaryPair(version: string): BinaryPair {
+function getBinaryPair(version: string): { filename: string; sha256: string; } {
     const platform: string = getPlatformIdentifier();
+    const release = releases[version];
 
-    switch (version) {
-        case "10.8.0":
-            return {
-                filename: `sde-external-10.8.0-2026-03-15-${platform}.tar.xz`,
-                sha256: platform === "lin"
-                    ? "50B320CD226ACEF7A491F5B321FC1BE3C3C7984F9E27A456E64894B5B0979DD3"
-                    : "176F87C80EB42BB91B73E1428F4A0FD067DF322F901F9B4359B20B86B92C2BAE",
-            };
-        case "9.58.0":
-            return {
-                filename: `sde-external-9.58.0-2025-06-16-${platform}.tar.xz`,
-                sha256: platform === "lin"
-                    ? "F849ACECAD4C9B108259C643B2688FD65C35723CD23368ABE5DD64B917CC18C0"
-                    : "EBB8B3B63FCB0B6C1F9721118BA4883703D2AED9E0DB2DEFED4E44FBA78D9CA9",
-            };
-        default:
-            throw new Error(`SDE version '${version}' is not supported in this context.`);
+    if (!release) {
+        throw new Error(`SDE version '${version}' is not supported in this context.`);
     }
+
+    return {
+        filename: `sde-external-${version}-${release.date}-${platform}.tar.xz`,
+        sha256: release.sha256[platform],
+    };
 }
 
 async function computeSha256(filePath: string): Promise<string> {

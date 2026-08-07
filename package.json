@@ -1,23 +1,26 @@
 {
 	"private": true,
-	"version": "5.0.0",
+	"version": "6.0.0",
 	"name": "setup-sde",
 	"main": "dist/index.js",
 	"license": "MIT",
+	"engines": {
+		"node": ">=24"
+	},
 	"scripts": {
 		"build": "ncc build index.ts -m",
 		"start": "node dist/index.js",
-		"test": "node tester.js"
+		"test": "node tester.mjs"
 	},
 	"dependencies": {
 		"@actions/cache": "^6.2.0",
-		"@actions/core": "^2.0.3",
-		"@actions/exec": "^2.0.0",
-		"@actions/tool-cache": "^3.0.1"
+		"@actions/core": "^3.0.1",
+		"@actions/exec": "^3.0.0",
+		"@actions/tool-cache": "^4.0.0"
 	},
 	"devDependencies": {
 		"@types/node": "^24.13.3",
-		"@vercel/ncc": "^0.38.4",
+		"@vercel/ncc": "^0.44.1",
 		"typescript": "6.0.3"
 	}
 }
